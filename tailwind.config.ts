@@ -70,14 +70,15 @@ export default {
 					800: '#1e293b',
 					900: '#0f172a',
 				},
-				gold: {
-					100: '#FFF7E6',
-					200: '#FFE8B3',
-					300: '#FFD980',
-					400: '#FFCB4D',
-					500: '#D4A72C',
-					600: '#A37E14',
-					700: '#735A0F',
+				// Replace gold with a cool blue-gray accent color
+				accent: {
+					100: '#E8F4F9',
+					200: '#D1E9F3',
+					300: '#A3D3E7',
+					400: '#75BEDB',
+					500: '#4A9CC0',
+					600: '#33809F',
+					700: '#1E5B76',
 				},
 			},
 			borderRadius: {
