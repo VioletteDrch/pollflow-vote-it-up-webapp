@@ -8,6 +8,7 @@ import { Poll } from "@/types/poll";
 import { votePoll, submitPollAnswer } from "@/services/pollService";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
+import { ChatInterface } from "./ChatInterface";
 
 type PollVotingProps = {
   poll: Poll;
@@ -18,6 +19,8 @@ export const PollVoting = ({ poll, onVote }: PollVotingProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [textAnswer, setTextAnswer] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [chatMode, setChatMode] = useState(poll.isTextBased);
+  const [finalSummary, setFinalSummary] = useState<string | null>(null);
   
   const handleVote = () => {
     if (!poll.isTextBased && !selectedOption) {
@@ -25,7 +28,7 @@ export const PollVoting = ({ poll, onVote }: PollVotingProps) => {
       return;
     }
     
-    if (poll.isTextBased && !textAnswer.trim()) {
+    if (poll.isTextBased && !textAnswer.trim() && !finalSummary) {
       toast.error("Please enter your answer");
       return;
     }
@@ -33,7 +36,8 @@ export const PollVoting = ({ poll, onVote }: PollVotingProps) => {
     setIsSubmitting(true);
     try {
       if (poll.isTextBased) {
-        const updatedPoll = submitPollAnswer(poll.id, textAnswer);
+        const answerToSubmit = finalSummary || textAnswer;
+        const updatedPoll = submitPollAnswer(poll.id, answerToSubmit);
         if (updatedPoll) {
           toast.success("Answer submitted!");
           onVote(updatedPoll);
@@ -57,6 +61,53 @@ export const PollVoting = ({ poll, onVote }: PollVotingProps) => {
     }
   };
   
+  const handleSummaryComplete = (summary: string) => {
+    setFinalSummary(summary);
+    setChatMode(false);
+  };
+  
+  // For text-based polls, show either chat interface or summary review
+  if (poll.isTextBased) {
+    if (chatMode) {
+      return <ChatInterface question={poll.question} onSummaryComplete={handleSummaryComplete} />;
+    }
+    
+    if (finalSummary) {
+      return (
+        <Card className="w-full max-w-2xl mx-auto animate-fade-in">
+          <CardHeader>
+            <CardTitle className="text-xl font-bold">{poll.question}</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="bg-secondary p-4 rounded-lg">
+              <h3 className="text-sm font-medium mb-2">Your opinion summary:</h3>
+              <p className="text-base">{finalSummary}</p>
+            </div>
+          </CardContent>
+          <CardFooter className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                setChatMode(true);
+                setFinalSummary(null);
+              }}
+            >
+              Edit Opinion
+            </Button>
+            <Button 
+              className="w-full sm:w-auto" 
+              onClick={handleVote}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Submit Opinion"}
+            </Button>
+          </CardFooter>
+        </Card>
+      );
+    }
+  }
+  
+  // Fall back to the original interface for non-text polls or direct text entry
   return (
     <Card className="w-full max-w-2xl mx-auto animate-fade-in">
       <CardHeader>
@@ -73,6 +124,15 @@ export const PollVoting = ({ poll, onVote }: PollVotingProps) => {
               onChange={(e) => setTextAnswer(e.target.value)}
               className="min-h-[150px]"
             />
+            <div className="pt-2">
+              <Button
+                variant="outline"
+                onClick={() => setChatMode(true)}
+                className="w-full"
+              >
+                Use Discussion Assistant
+              </Button>
+            </div>
           </div>
         ) : (
           <RadioGroup onValueChange={setSelectedOption} value={selectedOption || ""}>
