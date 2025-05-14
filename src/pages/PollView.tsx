@@ -70,7 +70,9 @@ const PollView = () => {
         
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="w-full mb-6">
-            <TabsTrigger value="vote" className="w-1/2">Vote</TabsTrigger>
+            <TabsTrigger value="vote" className="w-1/2">
+              {poll.isTextBased ? "Answer" : "Vote"}
+            </TabsTrigger>
             <TabsTrigger value="results" className="w-1/2">Results</TabsTrigger>
           </TabsList>
           
@@ -79,7 +81,11 @@ const PollView = () => {
               <PollVoting poll={poll} onVote={handleVote} />
             ) : (
               <div className="text-center py-8">
-                <p className="text-lg mb-4">You've already voted on this poll.</p>
+                <p className="text-lg mb-4">
+                  {poll.isTextBased 
+                    ? "You've already submitted your answer to this poll." 
+                    : "You've already voted on this poll."}
+                </p>
                 <Button onClick={() => setActiveTab("results")}>
                   View Results
                 </Button>

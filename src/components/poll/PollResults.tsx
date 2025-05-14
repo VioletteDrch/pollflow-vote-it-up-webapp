@@ -8,7 +8,34 @@ type PollResultsProps = {
 };
 
 export const PollResults = ({ poll }: PollResultsProps) => {
-  // Calculate total votes
+  if (poll.isTextBased) {
+    return (
+      <Card className="w-full max-w-2xl mx-auto animate-fade-in">
+        <CardHeader>
+          <CardTitle className="text-xl font-bold">{poll.question}</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Total responses: {poll.answers.length}
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {poll.answers.length === 0 ? (
+            <p className="text-center py-8 text-muted-foreground">No answers yet</p>
+          ) : (
+            poll.answers.map((answer) => (
+              <div key={answer.id} className="p-4 border rounded-md bg-card/50">
+                <p className="text-sm text-muted-foreground mb-1">
+                  {new Date(answer.createdAt).toLocaleDateString()}
+                </p>
+                <p className="whitespace-pre-line">{answer.text}</p>
+              </div>
+            ))
+          )}
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Calculate total votes for multiple choice polls
   const totalVotes = poll.options.reduce((sum, option) => sum + option.votes, 0);
   
   // Get percentage for each option

@@ -1,5 +1,5 @@
 
-import { Poll, PollOption } from "@/types/poll";
+import { Poll, PollOption, PollAnswer } from "@/types/poll";
 
 // In a real application, this would connect to a backend API
 // For now, we'll use localStorage for persistence
@@ -18,6 +18,10 @@ export const getPolls = (): Poll[] => {
   return JSON.parse(polls).map((poll: any) => ({
     ...poll,
     createdAt: new Date(poll.createdAt),
+    answers: poll.answers ? poll.answers.map((a: any) => ({
+      ...a,
+      createdAt: new Date(a.createdAt)
+    })) : [],
   }));
 };
 
@@ -29,7 +33,7 @@ export const getPollById = (id: string): Poll | undefined => {
 };
 
 // Create a new poll
-export const createPoll = (question: string, options: string[]): Poll => {
+export const createPoll = (question: string, options: string[], isTextBased: boolean = false): Poll => {
   const newPoll: Poll = {
     id: generateId(),
     question,
@@ -38,6 +42,8 @@ export const createPoll = (question: string, options: string[]): Poll => {
       text,
       votes: 0,
     })),
+    answers: [],
+    isTextBased,
     createdAt: new Date(),
   };
 
@@ -67,6 +73,32 @@ export const votePoll = (pollId: string, optionId: string): Poll | undefined => 
   const updatedPoll = {
     ...poll,
     options: updatedOptions,
+  };
+  
+  polls[pollIndex] = updatedPoll;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(polls));
+  
+  return updatedPoll;
+};
+
+// Submit a text answer to a poll
+export const submitPollAnswer = (pollId: string, text: string): Poll | undefined => {
+  const polls = getPolls();
+  const pollIndex = polls.findIndex((p) => p.id === pollId);
+  
+  if (pollIndex === -1) return undefined;
+  
+  const poll = polls[pollIndex];
+  
+  const newAnswer: PollAnswer = {
+    id: generateId(),
+    text,
+    createdAt: new Date(),
+  };
+  
+  const updatedPoll = {
+    ...poll,
+    answers: [...(poll.answers || []), newAnswer],
   };
   
   polls[pollIndex] = updatedPoll;
