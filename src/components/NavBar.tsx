@@ -1,6 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { LanguageToggle } from "./LanguageToggle";
 
 export const NavBar = () => {
   return (
@@ -9,6 +10,7 @@ export const NavBar = () => {
         <span className="text-2xl font-serif font-bold lumieres-title">Lumières</span>
       </Link>
       <div className="flex items-center gap-4">
+        <LanguageToggle />
         <Link to="/create">
           <Button className="lumieres-button-primary">
             Create Discourse
