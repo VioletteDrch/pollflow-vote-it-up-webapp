@@ -20,8 +20,8 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				serif: ['Playfair Display', 'Georgia', 'serif'],
-				sans: ['Inter', 'system-ui', 'sans-serif']
+				serif: ['Libre Baskerville', 'Georgia', 'serif'],
+				sans: ['Lato', 'system-ui', 'sans-serif']
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -31,7 +31,17 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					50: '#FAF8F2',
+					100: '#F1EBE0',
+					200: '#E3D8C3',
+					300: '#D5C5A5',
+					400: '#C8B288',
+					500: '#B08B56',
+					600: '#8C6F45',
+					700: '#6A5434',
+					800: '#483822',
+					900: '#241C11',
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -47,7 +57,17 @@ export default {
 				},
 				accent: {
 					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
+					foreground: 'hsl(var(--accent-foreground))',
+					// Rich maroon/burgundy color for accents - popular in 18th century
+					100: '#F8E6E0',
+					200: '#F1CCC1',
+					300: '#E4A394',
+					400: '#D67A66',
+					500: '#C85237',
+					600: '#A1422D',
+					700: '#7A3223',
+					800: '#522118',
+					900: '#29110C',
 				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
@@ -56,30 +76,7 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
-				},
-				// Updated color scheme for a more serious intellectual look
-				slate: {
-					50: '#f8fafc',
-					100: '#f1f5f9',
-					200: '#e2e8f0',
-					300: '#cbd5e1',
-					400: '#94a3b8',
-					500: '#64748b',
-					600: '#475569',
-					700: '#334155',
-					800: '#1e293b',
-					900: '#0f172a',
-				},
-				// Replace gold with a cool blue-gray accent color
-				accent: {
-					100: '#E8F4F9',
-					200: '#D1E9F3',
-					300: '#A3D3E7',
-					400: '#75BEDB',
-					500: '#4A9CC0',
-					600: '#33809F',
-					700: '#1E5B76',
-				},
+				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

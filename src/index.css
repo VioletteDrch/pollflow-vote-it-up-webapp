@@ -3,37 +3,37 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 215 25% 27%;
+    --background: 39 38% 97%;
+    --foreground: 32 40% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 27%;
+    --card-foreground: 32 40% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 27%;
+    --popover-foreground: 32 40% 20%;
 
-    --primary: 217 33% 17%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 32 40% 20%;
+    --primary-foreground: 39 38% 97%;
 
-    --secondary: 215 16% 90%;
-    --secondary-foreground: 215 25% 27%;
+    --secondary: 33 25% 90%;
+    --secondary-foreground: 32 40% 20%;
 
-    --muted: 215 16% 90%;
-    --muted-foreground: 215 25% 40%;
+    --muted: 33 25% 90%;
+    --muted-foreground: 32 20% 40%;
 
-    --accent: 43 80% 50%;
-    --accent-foreground: 215 25% 27%;
+    --accent: 22 80% 45%;
+    --accent-foreground: 39 38% 97%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 215 25% 27%;
+    --border: 33 25% 85%;
+    --input: 33 25% 85%;
+    --ring: 32 40% 20%;
 
     --radius: 0.5rem;
   }
@@ -53,27 +53,31 @@
 }
 
 @layer components {
-  .text-gradient {
-    @apply bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent;
+  .lumieres-title {
+    @apply bg-gradient-to-r from-primary to-primary-800 bg-clip-text text-transparent;
   }
   
   .card-hover {
-    @apply transition-all duration-300 hover:shadow-lg hover:shadow-slate-200;
+    @apply transition-all duration-300 hover:shadow-lg hover:shadow-primary-100;
   }
 
-  .gora-card {
-    @apply border border-slate-200 bg-white shadow-sm rounded-lg;
+  .lumieres-card {
+    @apply border border-primary-100 bg-white shadow-sm rounded-lg;
+  }
+  
+  .lumieres-card-alt {
+    @apply border border-primary-200 bg-primary-50 shadow-sm rounded-lg;
   }
 
-  .gora-button-primary {
-    @apply bg-gradient-to-r from-slate-800 to-slate-700 text-white hover:from-slate-700 hover:to-slate-600;
+  .lumieres-button-primary {
+    @apply bg-gradient-to-r from-accent to-accent-600 text-white hover:from-accent-600 hover:to-accent-700;
   }
   
-  .gora-button-accent {
-    @apply bg-gradient-to-r from-accent-500 to-accent-600 text-slate-900 hover:from-accent-600 hover:to-accent-700;
+  .lumieres-button-secondary {
+    @apply bg-gradient-to-r from-primary-700 to-primary-800 text-white hover:from-primary-600 hover:to-primary-700;
   }
   
-  .quote-block {
-    @apply border-l-4 border-accent-400 pl-4 py-1 italic;
+  .enlightenment-quote {
+    @apply border-l-4 border-accent pl-4 py-1 italic;
   }
 }
