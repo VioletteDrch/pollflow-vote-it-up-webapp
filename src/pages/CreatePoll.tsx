@@ -1,4 +1,13 @@
 
+/**
+ * Poll creation page that allows users to create new polls.
+ * Renders the PollCreationForm component within the Layout.
+ * 
+ * The actual poll creation logic is in the PollCreationForm component.
+ * BACKEND INTEGRATION: Form submission in PollCreationForm will need to 
+ * connect to your backend API.
+ */
+
 import { Layout } from "@/components/Layout";
 import { PollCreationForm } from "@/components/poll/PollCreationForm";
 

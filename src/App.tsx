@@ -1,4 +1,14 @@
 
+/**
+ * Root application component that sets up:
+ * - React Query for data fetching
+ * - React Router for navigation
+ * - UI providers (tooltips, toasts)
+ * - Application routes
+ * 
+ * This component is the container for all pages and global UI elements.
+ */
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";

@@ -1,4 +1,16 @@
 
+/**
+ * Component for voting on polls or submitting text answers.
+ * Handles both multiple-choice polls and text-based opinion polls.
+ * 
+ * For text-based polls, offers:
+ * - Direct text input
+ * - AI-assisted chat interface for opinion formation
+ * 
+ * BACKEND INTEGRATION: Replace votePoll and submitPollAnswer calls with 
+ * API requests to your backend service.
+ */
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";

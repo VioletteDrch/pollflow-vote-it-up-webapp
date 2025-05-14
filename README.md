@@ -1,73 +1,70 @@
-# Welcome to your Lovable project
 
-## Project info
+# PollFlow - Interactive Poll Creation App
 
-**URL**: https://lovable.dev/projects/3e12affb-8391-4514-baa9-bb847abe1ba9
+## Introduction
+PollFlow is a web application that allows users to create, share, and participate in polls. Users can create both standard multiple-choice polls and text-based opinion polls.
 
-## How can I edit this code?
+## Technologies Used
+This project uses several modern web technologies:
+- **React**: A JavaScript library for building user interfaces
+- **TypeScript**: A typed superset of JavaScript that adds static types
+- **Tailwind CSS**: A utility-first CSS framework
+- **Shadcn UI**: A collection of reusable UI components
+- **React Router**: For navigation between pages
+- **localStorage**: For temporary data storage (will be replaced with backend)
 
-There are several ways of editing your application.
+## Project Structure
+- `/src`: Main source code folder
+  - `/components`: Reusable UI components
+  - `/pages`: Application pages/routes
+  - `/types`: TypeScript type definitions
+  - `/services`: Data services (current and future API integration)
+  - `/hooks`: Custom React hooks
+  - `/lib`: Utility functions and helpers
 
-**Use Lovable**
+## Getting Started
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/3e12affb-8391-4514-baa9-bb847abe1ba9) and start prompting.
+### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### Installation
+1. Clone the repository
+```bash
+git clone <repository-url>
+cd pollflow
 ```
 
-**Edit a file directly in GitHub**
+2. Install dependencies
+```bash
+npm install
+# or
+yarn install
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+3. Start the development server
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-**Use GitHub Codespaces**
+4. Open http://localhost:5173 in your browser
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Integrating with a Backend
+For developers looking to connect this app to a backend:
 
-## What technologies are used for this project?
+1. The `src/services` directory contains service files that currently use localStorage
+2. Replace the localStorage operations in `pollService.ts` with API calls
+3. Maintain the same function interfaces for seamless integration
+4. Common API integration points:
+   - Poll creation (`createPoll` in `pollService.ts`)
+   - Poll fetching (`getPolls` and `getPollById` in `pollService.ts`)
+   - Vote submission (`votePoll` in `pollService.ts`)
+   - Text answer submission (`submitPollAnswer` in `pollService.ts`)
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/3e12affb-8391-4514-baa9-bb847abe1ba9) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## Learning Resources
+- [React Documentation](https://react.dev/)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [React Router Documentation](https://reactrouter.com/en/main)

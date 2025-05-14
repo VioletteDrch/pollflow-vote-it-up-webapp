@@ -1,4 +1,17 @@
 
+/**
+ * Page component for viewing a specific poll.
+ * Allows users to:
+ * - Vote on polls
+ * - View poll results
+ * - Share polls
+ * - Submit text answers for text-based polls
+ * 
+ * Uses the poll ID from URL params to fetch poll data.
+ * BACKEND INTEGRATION: Replace getPollById with API call to fetch poll data.
+ * Vote submission and text answers should connect to your backend.
+ */
+
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Layout } from "@/components/Layout";

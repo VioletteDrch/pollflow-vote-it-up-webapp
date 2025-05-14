@@ -1,4 +1,15 @@
 
+/**
+ * Navigation bar component displayed at the top of every page.
+ * Features:
+ * - App logo/name with link to home page
+ * - Language selection dropdown
+ * - Create poll button
+ * 
+ * BACKEND INTEGRATION: Add authentication-related UI elements here
+ * (login/signup buttons, user profile, etc.)
+ */
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Globe } from "lucide-react";

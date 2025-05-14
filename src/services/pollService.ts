@@ -1,4 +1,21 @@
 
+/**
+ * Service for managing poll data.
+ * Currently uses localStorage for data persistence.
+ * 
+ * BACKEND INTEGRATION POINT:
+ * Replace localStorage operations with API calls to your backend.
+ * Maintain the same function interfaces (parameters and return types)
+ * for seamless integration with the frontend components.
+ * 
+ * Key functions to replace with API calls:
+ * - getPolls() - Fetch all polls from backend
+ * - getPollById() - Fetch a specific poll
+ * - createPoll() - Create a new poll on backend
+ * - votePoll() - Submit a vote to backend
+ * - submitPollAnswer() - Submit text answer to backend
+ */
+
 import { Poll, PollOption, PollAnswer } from "@/types/poll";
 
 // In a real application, this would connect to a backend API

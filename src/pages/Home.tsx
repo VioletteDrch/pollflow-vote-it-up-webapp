@@ -1,4 +1,14 @@
 
+/**
+ * Home page component that displays:
+ * - Hero section with call-to-action
+ * - Feature highlights
+ * - Additional call-to-action
+ * 
+ * Uses the Layout component for page structure.
+ * Links to the poll creation page.
+ */
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/Layout";
