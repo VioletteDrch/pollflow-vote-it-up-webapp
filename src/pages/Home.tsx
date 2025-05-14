@@ -3,63 +3,52 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/Layout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, Scroll, GraduationCap } from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
 
 const features = [
   {
-    icon: <BookOpen className="h-8 w-8 text-primary" />,
-    titleKey: "feature1Title",
-    descriptionKey: "feature1Description"
+    title: "Easy Poll Creation",
+    description: "Create beautiful polls in seconds with our intuitive interface."
   },
   {
-    icon: <Scroll className="h-8 w-8 text-primary" />,
-    titleKey: "feature2Title",
-    descriptionKey: "feature2Description"
+    title: "Real-time Results",
+    description: "Watch as votes come in and see results update instantly."
   },
   {
-    icon: <GraduationCap className="h-8 w-8 text-primary" />,
-    titleKey: "feature3Title",
-    descriptionKey: "feature3Description"
+    title: "Share Anywhere",
+    description: "Generate shareable links to collect responses from anyone."
   }
 ];
 
 const Home = () => {
-  const { t } = useLanguage();
-  
   return (
     <Layout>
       <div className="max-w-6xl mx-auto">
         {/* Hero Section */}
-        <section className="my-16 md:my-24 text-center animate-fade-in">
-          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 lumieres-title">
-            {t("homepageTitle")}
+        <section className="my-12 md:my-20 text-center animate-fade-in">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-gradient">
+            Create Polls with Ease
           </h1>
-          <p className="text-xl md:text-2xl font-serif italic mb-4 max-w-3xl mx-auto text-primary-800">
-            {t("homepageTagline")}
-          </p>
-          <p className="text-lg mb-8 max-w-2xl mx-auto text-primary-700">
-            {t("homepageSubtitle")}
+          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-muted-foreground">
+            Get instant feedback from your audience with beautiful, interactive polls.
           </p>
           <Link to="/create">
-            <Button size="lg" className="lumieres-button-primary">
-              {t("createButton")}
+            <Button size="lg" className="bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800">
+              Create Your First Poll
             </Button>
           </Link>
         </section>
 
         {/* Features */}
-        <section className="my-24">
-          <h2 className="text-3xl font-serif font-bold mb-12 text-center">{t("featuresTitle")}</h2>
-          <div className="grid md:grid-cols-3 gap-8 animate-slide-up">
+        <section className="my-16">
+          <h2 className="text-2xl font-bold mb-8 text-center">Why Choose PollFlow?</h2>
+          <div className="grid md:grid-cols-3 gap-6 animate-slide-up">
             {features.map((feature, index) => (
-              <Card key={index} className="lumieres-card card-hover">
+              <Card key={index} className="card-hover">
                 <CardHeader>
-                  <div className="mb-4">{feature.icon}</div>
-                  <CardTitle className="font-serif">{t(feature.titleKey as any)}</CardTitle>
+                  <CardTitle>{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-base">{t(feature.descriptionKey as any)}</CardDescription>
+                  <CardDescription>{feature.description}</CardDescription>
                 </CardContent>
               </Card>
             ))}
@@ -67,28 +56,18 @@ const Home = () => {
         </section>
 
         {/* Call to Action */}
-        <section className="my-24 text-center">
-          <Card className="lumieres-card-alt">
+        <section className="my-20 text-center">
+          <Card className="bg-gradient-to-r from-purple-500/10 to-purple-700/10 border border-purple-200">
             <CardHeader>
-              <CardTitle className="text-2xl font-serif">{t("ctaTitle")}</CardTitle>
-              <CardDescription className="text-lg">{t("ctaDescription")}</CardDescription>
+              <CardTitle className="text-2xl font-bold">Ready to Get Started?</CardTitle>
+              <CardDescription>Create your first poll in under a minute.</CardDescription>
             </CardHeader>
             <CardFooter className="flex justify-center">
               <Link to="/create">
-                <Button className="lumieres-button-primary">{t("ctaButton")}</Button>
+                <Button>Create Poll Now</Button>
               </Link>
             </CardFooter>
           </Card>
-        </section>
-        
-        {/* Quote Section */}
-        <section className="my-24 text-center max-w-4xl mx-auto">
-          <div className="enlightenment-quote mx-auto text-left">
-            <p className="text-xl font-serif mb-2">
-              {t("quoteText")}
-            </p>
-            <p className="text-right text-primary-600">{t("quoteAuthor")}</p>
-          </div>
         </section>
       </div>
     </Layout>

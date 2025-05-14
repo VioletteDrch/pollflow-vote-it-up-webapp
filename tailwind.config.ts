@@ -19,10 +19,6 @@ export default {
 			}
 		},
 		extend: {
-			fontFamily: {
-				serif: ['Libre Baskerville', 'Georgia', 'serif'],
-				sans: ['Lato', 'system-ui', 'sans-serif']
-			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -31,17 +27,7 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))',
-					50: '#FAF8F2',
-					100: '#F1EBE0',
-					200: '#E3D8C3',
-					300: '#D5C5A5',
-					400: '#C8B288',
-					500: '#B08B56',
-					600: '#8C6F45',
-					700: '#6A5434',
-					800: '#483822',
-					900: '#241C11',
+					foreground: 'hsl(var(--primary-foreground))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -57,17 +43,7 @@ export default {
 				},
 				accent: {
 					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))',
-					// Rich maroon/burgundy color for accents - popular in 18th century
-					100: '#F8E6E0',
-					200: '#F1CCC1',
-					300: '#E4A394',
-					400: '#D67A66',
-					500: '#C85237',
-					600: '#A1422D',
-					700: '#7A3223',
-					800: '#522118',
-					900: '#29110C',
+					foreground: 'hsl(var(--accent-foreground))'
 				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
@@ -76,7 +52,19 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
-				}
+				},
+				purple: {
+					50: '#f5f3ff',
+					100: '#ede9fe',
+					200: '#ddd6fe',
+					300: '#c4b5fd',
+					400: '#a78bfa',
+					500: '#8b5cf6',
+					600: '#7c3aed',
+					700: '#6d28d9',
+					800: '#5b21b6',
+					900: '#4c1d95',
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

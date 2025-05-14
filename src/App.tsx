@@ -8,25 +8,22 @@ import Home from "./pages/Home";
 import CreatePoll from "./pages/CreatePoll";
 import PollView from "./pages/PollView";
 import NotFound from "./pages/NotFound";
-import { LanguageProvider } from "./contexts/LanguageContext";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <LanguageProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/create" element={<CreatePoll />} />
-            <Route path="/poll/:id" element={<PollView />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </LanguageProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/create" element={<CreatePoll />} />
+          <Route path="/poll/:id" element={<PollView />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );

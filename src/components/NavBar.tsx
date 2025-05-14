@@ -1,19 +1,17 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { LanguageToggle } from "./LanguageToggle";
 
 export const NavBar = () => {
   return (
-    <nav className="w-full py-6 px-6 md:px-12 flex items-center justify-between border-b border-primary-200 bg-background">
+    <nav className="w-full py-4 px-6 md:px-12 flex items-center justify-between border-b">
       <Link to="/" className="flex items-center space-x-2">
-        <span className="text-2xl font-serif font-bold lumieres-title">Lumières</span>
+        <span className="text-xl font-bold text-gradient">PollFlow</span>
       </Link>
       <div className="flex items-center gap-4">
-        <LanguageToggle />
         <Link to="/create">
-          <Button className="lumieres-button-primary">
-            Create Discourse
+          <Button className="bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800">
+            Create Poll
           </Button>
         </Link>
       </div>
