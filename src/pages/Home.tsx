@@ -7,17 +7,17 @@ import { BookOpen, MessageSquare, Users } from "lucide-react";
 
 const features = [
   {
-    icon: <BookOpen className="h-8 w-8 text-gold-500" />,
+    icon: <BookOpen className="h-8 w-8 text-accent-500" />,
     title: "Informed Discussion",
     description: "Access contextual information and resources to form thoughtful opinions."
   },
   {
-    icon: <MessageSquare className="h-8 w-8 text-gold-500" />,
+    icon: <MessageSquare className="h-8 w-8 text-accent-500" />,
     title: "Articulate Viewpoints",
     description: "Our AI helps you refine and articulate your perspectives on complex topics."
   },
   {
-    icon: <Users className="h-8 w-8 text-gold-500" />,
+    icon: <Users className="h-8 w-8 text-accent-500" />,
     title: "Collective Wisdom",
     description: "See how your ideas contribute to a broader community of thought and discourse."
   }

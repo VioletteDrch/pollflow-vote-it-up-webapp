@@ -70,10 +70,10 @@
   }
   
   .gora-button-accent {
-    @apply bg-gradient-to-r from-gold-500 to-gold-600 text-slate-900 hover:from-gold-600 hover:to-gold-700;
+    @apply bg-gradient-to-r from-accent-500 to-accent-600 text-slate-900 hover:from-accent-600 hover:to-accent-700;
   }
   
   .quote-block {
-    @apply border-l-4 border-gold-400 pl-4 py-1 italic;
+    @apply border-l-4 border-accent-400 pl-4 py-1 italic;
   }
 }
