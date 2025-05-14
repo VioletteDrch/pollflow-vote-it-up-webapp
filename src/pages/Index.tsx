@@ -1,4 +1,3 @@
-
 /**
  * Index page component that serves as an entry point.
  * Currently just renders the Home component.

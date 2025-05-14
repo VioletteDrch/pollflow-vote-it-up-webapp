@@ -1,4 +1,17 @@
 
+
+/**
+ * Form component for creating new polls.
+ * Features:
+ * - Question input field
+ * - Toggle for text-based vs. multiple choice polls
+ * - Dynamic option fields for multiple choice polls
+ * - Form validation and submission
+ * 
+ * BACKEND INTEGRATION: Form submission should connect to your backend API.
+ * The createPoll function in pollService.ts needs to be updated.
+ */
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";

@@ -1,4 +1,3 @@
-
 /**
  * Main entry point for the application.
  * Renders the root App component into the DOM.

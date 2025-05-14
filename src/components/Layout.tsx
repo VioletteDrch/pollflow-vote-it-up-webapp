@@ -1,4 +1,3 @@
-
 /**
  * Main layout component used across all pages.
  * Provides consistent structure with:

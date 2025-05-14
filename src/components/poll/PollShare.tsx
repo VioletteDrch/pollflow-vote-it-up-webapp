@@ -1,4 +1,15 @@
 
+
+/**
+ * Component for sharing a poll via URL.
+ * Features:
+ * - Displays the poll's URL
+ * - Button to copy the URL to clipboard
+ * - Success/error toasts for clipboard operations
+ * 
+ * Takes a pollId as a prop to generate the sharing URL.
+ */
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

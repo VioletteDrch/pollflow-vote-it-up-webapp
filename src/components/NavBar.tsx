@@ -1,4 +1,3 @@
-
 /**
  * Navigation bar component displayed at the top of every page.
  * Features:

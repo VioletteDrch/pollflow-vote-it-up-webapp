@@ -1,4 +1,3 @@
-
 /**
  * Service for managing poll data.
  * Currently uses localStorage for data persistence.

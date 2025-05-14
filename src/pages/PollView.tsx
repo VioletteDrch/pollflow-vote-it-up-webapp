@@ -1,4 +1,3 @@
-
 /**
  * Page component for viewing a specific poll.
  * Allows users to:

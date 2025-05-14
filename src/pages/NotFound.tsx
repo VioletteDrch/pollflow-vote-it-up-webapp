@@ -1,4 +1,11 @@
 
+
+/**
+ * 404 Not Found page displayed when a user navigates to a non-existent route.
+ * Provides a link back to the home page.
+ * Uses the Layout component for consistent site structure.
+ */
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/Layout";

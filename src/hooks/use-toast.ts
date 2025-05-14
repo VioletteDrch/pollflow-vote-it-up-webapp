@@ -1,3 +1,16 @@
+
+
+/**
+ * Custom React hook for displaying toast notifications.
+ * 
+ * Provides a toast system with:
+ * - Adding/updating/dismissing/removing toasts
+ * - Automatic toast removal after delay
+ * - Toast state management
+ * 
+ * Used with the Toaster component to display notifications.
+ */
+
 import * as React from "react"
 
 import type {

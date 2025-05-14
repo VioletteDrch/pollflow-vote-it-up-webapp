@@ -1,4 +1,14 @@
 
+
+/**
+ * Component for displaying poll results.
+ * Shows different UI based on poll type:
+ * - For multiple choice: displays options with vote counts and percentages
+ * - For text-based: displays list of text answers
+ * 
+ * Takes a poll object as a prop and visualizes its current state.
+ */
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";

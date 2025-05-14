@@ -1,4 +1,13 @@
 
+
+/**
+ * Footer component displayed at the bottom of every page.
+ * Contains:
+ * - Copyright information
+ * - Navigation links
+ * - Could be extended with social links, additional information, etc.
+ */
+
 import { Link } from "react-router-dom";
 
 export const Footer = () => {

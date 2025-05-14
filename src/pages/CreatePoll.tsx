@@ -1,4 +1,3 @@
-
 /**
  * Poll creation page that allows users to create new polls.
  * Renders the PollCreationForm component within the Layout.
@@ -23,3 +22,4 @@ const CreatePoll = () => {
 };
 
 export default CreatePoll;
+

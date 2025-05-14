@@ -1,4 +1,3 @@
-
 /**
  * Home page component that displays:
  * - Hero section with call-to-action
