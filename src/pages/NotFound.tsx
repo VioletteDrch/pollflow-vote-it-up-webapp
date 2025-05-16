@@ -1,5 +1,4 @@
 
-
 /**
  * 404 Not Found page displayed when a user navigates to a non-existent route.
  * Provides a link back to the home page.
@@ -9,8 +8,14 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/Layout";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 const NotFound = () => {
+  useEffect(() => {
+    toast.error("Page not found. You've been redirected to the 404 page.");
+  }, []);
+
   return (
     <Layout>
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
@@ -18,9 +23,18 @@ const NotFound = () => {
         <p className="text-xl text-muted-foreground mb-8">
           Oops! The page you're looking for doesn't exist.
         </p>
-        <Link to="/">
-          <Button>Back to Home</Button>
-        </Link>
+        <p className="text-muted-foreground mb-8 max-w-md text-center">
+          There might have been an error with the poll creation or navigation. 
+          Please try creating a poll again.
+        </p>
+        <div className="flex gap-4">
+          <Link to="/">
+            <Button>Back to Home</Button>
+          </Link>
+          <Link to="/create">
+            <Button variant="outline">Create New Poll</Button>
+          </Link>
+        </div>
       </div>
     </Layout>
   );
