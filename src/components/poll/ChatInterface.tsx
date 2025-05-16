@@ -20,21 +20,9 @@ type ChatInterfaceProps = {
 
 const generateId = () => Math.random().toString(36).substring(2, 15);
 
-// Environment detection logic - same as used in pollService.ts
-const isLocalBackend = (): boolean => {
-  // Check if we're running locally (not on lovable.app domain)
-  return !window.location.hostname.includes('lovable.app');
-};
-
-// API Call Logger
-const logApiCall = (method: string, endpoint: string, data?: any, response?: any) => {
-  console.log(`🤖 LLM API ${method} | ${endpoint} |`, 
-    data ? `Request: ${JSON.stringify(data)}` : '',
-    response ? `Response: ${JSON.stringify(response)}` : '');
-};
-
-// Simulated AI responses - used when in Lovable environment
+// Simulated AI responses - to be replaced with actual AI integration
 const simulateAIResponse = async (message: string, question: string): Promise<string> => {
+  // This is a placeholder that would be replaced with actual AI call
   const responses = [
     `That's an interesting perspective on "${question}". Can you elaborate more?`,
     `I understand your point. Have you considered other aspects of this issue?`,
@@ -46,85 +34,11 @@ const simulateAIResponse = async (message: string, question: string): Promise<st
   return responses[Math.floor(Math.random() * responses.length)];
 };
 
-// Simulated summary generation - used when in Lovable environment
-const simulateSummary = async (messages: Message[], question: string): Promise<string> => {
+// Simulated summary generation - to be replaced with actual AI summary
+const generateSummary = async (messages: Message[], question: string): Promise<string> => {
   await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate processing
   const userMessages = messages.filter(m => m.sender === "user").map(m => m.content).join(" ");
   return `Based on our conversation about "${question}", your main points appear to be: ${userMessages.substring(0, 100)}... Is this summary accurate?`;
-};
-
-// Real API calls to backend LLM service - used when in local environment
-const callLLMForResponse = async (message: string, question: string): Promise<string> => {
-  const API_BASE_URL = "http://localhost:8000"; // Same as in pollService.ts
-  const endpoint = `${API_BASE_URL}/api/chat/response`;
-  
-  logApiCall('POST', endpoint, { message, question }, null);
-  
-  try {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, question })
-    });
-    
-    if (!response.ok) throw new Error(`API error: ${response.status}`);
-    
-    const data = await response.json();
-    logApiCall('POST', endpoint, null, data);
-    
-    return data.response;
-  } catch (error) {
-    console.error('Error getting LLM response:', error);
-    return `I'm having trouble connecting to my backend service. Could you try again? (Error: ${error instanceof Error ? error.message : 'Unknown error'})`;
-  }
-};
-
-// Real API call for summary generation - used when in local environment
-const callLLMForSummary = async (messages: Message[], question: string): Promise<string> => {
-  const API_BASE_URL = "http://localhost:8000"; // Same as in pollService.ts
-  const endpoint = `${API_BASE_URL}/api/chat/summary`;
-  
-  // Format messages for the API
-  const formattedMessages = messages.map(m => ({
-    content: m.content,
-    sender: m.sender,
-    timestamp: m.timestamp.toISOString()
-  }));
-  
-  logApiCall('POST', endpoint, { messages: formattedMessages, question }, null);
-  
-  try {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: formattedMessages, question })
-    });
-    
-    if (!response.ok) throw new Error(`API error: ${response.status}`);
-    
-    const data = await response.json();
-    logApiCall('POST', endpoint, null, data);
-    
-    return data.summary;
-  } catch (error) {
-    console.error('Error generating summary:', error);
-    // Fall back to simulated summary in case of error
-    return await simulateSummary(messages, question);
-  }
-};
-
-// Unified function that decides whether to use real API or simulation
-const getAIResponse = async (message: string, question: string): Promise<string> => {
-  return isLocalBackend() 
-    ? await callLLMForResponse(message, question) 
-    : await simulateAIResponse(message, question);
-};
-
-// Unified function that decides whether to use real API or simulation for summary
-const generateSummary = async (messages: Message[], question: string): Promise<string> => {
-  return isLocalBackend() 
-    ? await callLLMForSummary(messages, question) 
-    : await simulateSummary(messages, question);
 };
 
 export const ChatInterface = ({ question, onSummaryComplete }: ChatInterfaceProps) => {
@@ -144,11 +58,6 @@ export const ChatInterface = ({ question, onSummaryComplete }: ChatInterfaceProp
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  
-  // Log the environment on component mount
-  useEffect(() => {
-    console.log(`🤖 ChatInterface Mode: ${isLocalBackend() ? 'Backend LLM API' : 'Lovable Simulation'}`);
-  }, []);
   
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -173,9 +82,9 @@ export const ChatInterface = ({ question, onSummaryComplete }: ChatInterfaceProp
     setInputValue("");
     setIsTyping(true);
     
-    // Get AI response using environment-aware function
+    // Simulate AI response
     try {
-      const response = await getAIResponse(inputValue, question);
+      const response = await simulateAIResponse(inputValue, question);
       
       // Add AI message
       const aiMessage: Message = {
