@@ -1,4 +1,3 @@
-
 /**
  * Service for managing poll data.
  * Supports two modes:
@@ -16,9 +15,8 @@ const API_BASE_URL = "http://localhost:8000"; // Assumes FastAPI is running on p
 
 // Environment detection
 const isLocalBackend = (): boolean => {
-  // Check if we're running locally (not on lovable.app domain)
-  // and if the backend is available
-  return !window.location.hostname.includes('lovable.app');
+  // For Lovable environment, always use localStorage
+  return false;
 };
 
 // Generate a unique ID (for localStorage mode only)
@@ -206,7 +204,7 @@ const api_getPollById = async (id: string): Promise<Poll | undefined> => {
     if (!response.ok) {
       if (response.status === 404) {
         logApiCall('GET', endpoint, null, 'Poll not found');
-        return undefined;
+        throw new Error('Poll not found');
       }
       throw new Error(`API error: ${response.status}`);
     }
@@ -353,30 +351,29 @@ const api_submitPollAnswer = async (pollId: string, text: string): Promise<Poll 
 
 // Public API - Dynamically selects implementation based on environment
 export const getPolls = async (): Promise<Poll[]> => {
-  return isLocalBackend() ? await api_getPolls() : localStorage_getPolls();
+  // Always use localStorage in Lovable environment
+  return localStorage_getPolls();
 };
 
 export const getPollById = async (id: string): Promise<Poll | undefined> => {
-  return isLocalBackend() ? await api_getPollById(id) : localStorage_getPollById(id);
+  // Always use localStorage in Lovable environment
+  return localStorage_getPollById(id);
 };
 
 export const createPoll = async (question: string, options: string[], isTextBased: boolean = false): Promise<Poll> => {
-  return isLocalBackend() 
-    ? await api_createPoll(question, options, isTextBased) 
-    : localStorage_createPoll(question, options, isTextBased);
+  // Always use localStorage in Lovable environment
+  return localStorage_createPoll(question, options, isTextBased);
 };
 
 export const votePoll = async (pollId: string, optionId: string): Promise<Poll | undefined> => {
-  return isLocalBackend() 
-    ? await api_votePoll(pollId, optionId) 
-    : localStorage_votePoll(pollId, optionId);
+  // Always use localStorage in Lovable environment
+  return localStorage_votePoll(pollId, optionId);
 };
 
 export const submitPollAnswer = async (pollId: string, text: string): Promise<Poll | undefined> => {
-  return isLocalBackend() 
-    ? await api_submitPollAnswer(pollId, text) 
-    : localStorage_submitPollAnswer(pollId, text);
+  // Always use localStorage in Lovable environment
+  return localStorage_submitPollAnswer(pollId, text);
 };
 
 // Log which environment we're using
-console.log(`🌐 PollFlow API mode: ${isLocalBackend() ? 'Local Backend API' : 'Lovable LocalStorage'}`);
+console.log(`🌐 PollFlow API mode: Lovable LocalStorage (using fallback mode)`);

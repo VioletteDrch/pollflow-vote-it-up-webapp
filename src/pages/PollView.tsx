@@ -22,6 +22,7 @@ import { Poll } from "@/types/poll";
 import { getPollById } from "@/services/pollService";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
 
 const PollView = () => {
   const { id } = useParams<{ id: string }>();
@@ -33,7 +34,8 @@ const PollView = () => {
   
   useEffect(() => {
     if (!id) {
-      navigate("/");
+      toast.error("No poll ID provided");
+      navigate("/not-found");
       return;
     }
     
@@ -42,14 +44,15 @@ const PollView = () => {
         const foundPoll = await getPollById(id);
         if (foundPoll) {
           setPoll(foundPoll);
+          setLoading(false);
         } else {
+          toast.error(`Poll with ID ${id} not found`);
           navigate("/not-found");
         }
       } catch (error) {
         console.error("Error fetching poll:", error);
-        navigate("/not-found");
-      } finally {
-        setLoading(false);
+        toast.error("Error loading poll. Redirecting to home page.");
+        navigate("/");
       }
     };
     
@@ -75,8 +78,9 @@ const PollView = () => {
   if (!poll) {
     return (
       <Layout>
-        <div className="flex items-center justify-center min-h-[50vh]">
-          <p className="text-xl">Poll not found</p>
+        <div className="flex items-center justify-center min-h-[50vh] flex-col">
+          <p className="text-xl mb-4">Poll not found</p>
+          <Button onClick={() => navigate("/create")}>Create New Poll</Button>
         </div>
       </Layout>
     );
