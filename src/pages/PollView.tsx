@@ -57,7 +57,7 @@ const PollView = () => {
             const demoPoll: Poll = {
               id: id,
               question: "Demo Poll Question (Lovable Preview)",
-              createdAt: new Date().toISOString(),
+              createdAt: new Date(),
               isTextBased: Math.random() > 0.5, // Randomly pick poll type
               options: [
                 { id: "opt1", text: "Option 1", votes: Math.floor(Math.random() * 10) },
@@ -65,8 +65,8 @@ const PollView = () => {
                 { id: "opt3", text: "Option 3", votes: Math.floor(Math.random() * 10) }
               ],
               answers: [
-                { id: "ans1", text: "This is a sample text response", createdAt: new Date().toISOString() },
-                { id: "ans2", text: "Another example of a text response", createdAt: new Date().toISOString() }
+                { id: "ans1", text: "This is a sample text response", createdAt: new Date() },
+                { id: "ans2", text: "Another example of a text response", createdAt: new Date() }
               ]
             };
             setPoll(demoPoll);
@@ -84,14 +84,14 @@ const PollView = () => {
           const demoPoll: Poll = {
             id: id || "demo-id",
             question: "Demo Poll Question (Error Fallback)",
-            createdAt: new Date().toISOString(),
+            createdAt: new Date(),
             isTextBased: true,
             options: [
               { id: "opt1", text: "Option 1", votes: 3 },
               { id: "opt2", text: "Option 2", votes: 7 }
             ],
             answers: [
-              { id: "ans1", text: "This is a sample text response", createdAt: new Date().toISOString() }
+              { id: "ans1", text: "This is a sample text response", createdAt: new Date() }
             ]
           };
           setPoll(demoPoll);
@@ -141,7 +141,7 @@ const PollView = () => {
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="w-full mb-6">
             <TabsTrigger value="vote" className="w-1/2">
-              {poll.isTextBased ? "Answer" : "Vote"}
+              {poll?.isTextBased ? "Answer" : "Vote"}
             </TabsTrigger>
             <TabsTrigger value="results" className="w-1/2">Results</TabsTrigger>
           </TabsList>
@@ -152,7 +152,7 @@ const PollView = () => {
             ) : (
               <div className="text-center py-8">
                 <p className="text-lg mb-4">
-                  {poll.isTextBased 
+                  {poll?.isTextBased 
                     ? "You've already submitted your answer to this poll." 
                     : "You've already voted on this poll."}
                 </p>
@@ -168,7 +168,7 @@ const PollView = () => {
           </TabsContent>
         </Tabs>
         
-        <PollShare pollId={poll.id} />
+        <PollShare pollId={poll?.id || ""} />
       </div>
     </Layout>
   );
