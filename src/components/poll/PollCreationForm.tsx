@@ -67,12 +67,24 @@ export const PollCreationForm = () => {
     
     try {
       setIsSubmitting(true);
-      const newPoll = await createPoll(question, isTextBased ? [] : options.filter(opt => opt.trim() !== ""), isTextBased);
+      const filteredOptions = isTextBased ? [] : options.filter(opt => opt.trim() !== "");
+      
+      // Show a loading toast
+      const loadingToast = toast.loading("Creating your poll...");
+      
+      const newPoll = await createPoll(question, filteredOptions, isTextBased);
+      
+      // Dismiss the loading toast and show success
+      toast.dismiss(loadingToast);
       toast.success("Poll created successfully!");
-      navigate(`/poll/${newPoll.id}`);
+      
+      // Small delay to ensure the poll is saved before navigation
+      setTimeout(() => {
+        navigate(`/poll/${newPoll.id}`);
+      }, 100);
     } catch (error) {
-      toast.error("Error creating poll");
-      console.error(error);
+      console.error("Error creating poll:", error);
+      toast.error("Error creating poll. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
