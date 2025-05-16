@@ -196,8 +196,8 @@ const api_getPolls = async (): Promise<Poll[]> => {
   } catch (error) {
     console.error('Error fetching polls:', error);
     logApiCall('GET', endpoint, null, `Error: ${error}`);
-    // Fall back to localStorage if API fails
-    return localStorage_getPolls();
+    // No fallback in local environment
+    throw error;
   }
 };
 
@@ -230,8 +230,8 @@ const api_getPollById = async (id: string): Promise<Poll | undefined> => {
   } catch (error) {
     console.error(`Error fetching poll ${id}:`, error);
     logApiCall('GET', endpoint, null, `Error: ${error}`);
-    // Fall back to localStorage if API fails
-    return localStorage_getPollById(id);
+    // No fallback in local environment
+    throw error;
   }
 };
 
@@ -266,8 +266,8 @@ const api_createPoll = async (question: string, options: string[], isTextBased: 
   } catch (error) {
     console.error('Error creating poll:', error);
     logApiCall('POST', endpoint, null, `Error: ${error}`);
-    // Fall back to localStorage if API fails
-    return localStorage_createPoll(question, options, isTextBased);
+    // No fallback in local environment
+    throw error;
   }
 };
 
@@ -308,8 +308,8 @@ const api_votePoll = async (pollId: string, optionId: string): Promise<Poll | un
   } catch (error) {
     console.error(`Error voting on poll ${pollId}:`, error);
     logApiCall('PUT', endpoint, null, `Error: ${error}`);
-    // Fall back to localStorage if API fails
-    return localStorage_votePoll(pollId, optionId);
+    // No fallback in local environment
+    throw error;
   }
 };
 
@@ -350,8 +350,8 @@ const api_submitPollAnswer = async (pollId: string, text: string): Promise<Poll 
   } catch (error) {
     console.error(`Error submitting answer to poll ${pollId}:`, error);
     logApiCall('POST', endpoint, null, `Error: ${error}`);
-    // Fall back to localStorage if API fails
-    return localStorage_submitPollAnswer(pollId, text);
+    // No fallback in local environment
+    throw error;
   }
 };
 

@@ -19,7 +19,7 @@ import { PollVoting } from "@/components/poll/PollVoting";
 import { PollResults } from "@/components/poll/PollResults";
 import { PollShare } from "@/components/poll/PollShare";
 import { Poll } from "@/types/poll";
-import { getPollById } from "@/services/pollService";
+import { getPollById, isLocalBackend } from "@/services/pollService";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
@@ -55,11 +55,22 @@ const PollView = () => {
           console.error(`Poll with ID ${id} not found`);
           setError(`Poll with ID ${id} not found`);
           toast.error(`Poll with ID ${id} not found`);
+          
+          // If in local environment, provide more detailed error
+          if (isLocalBackend()) {
+            toast.error("Backend API returned null for this poll ID. Check your backend server.");
+          }
         }
       } catch (error) {
         console.error("Error fetching poll:", error);
-        setError(`Error loading poll: ${error instanceof Error ? error.message : 'Unknown error'}`);
-        toast.error("Error loading poll. Please try again.");
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        setError(`Error loading poll: ${errorMessage}`);
+        
+        if (isLocalBackend()) {
+          toast.error(`Backend API error: ${errorMessage}. Check your backend server.`);
+        } else {
+          toast.error("Error loading poll. Please try again.");
+        }
       } finally {
         setLoading(false);
       }
