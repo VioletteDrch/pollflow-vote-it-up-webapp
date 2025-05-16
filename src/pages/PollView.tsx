@@ -29,6 +29,7 @@ const PollView = () => {
   const navigate = useNavigate();
   const [poll, setPoll] = useState<Poll | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [hasVoted, setHasVoted] = useState(false);
   const [activeTab, setActiveTab] = useState("vote");
   
@@ -41,18 +42,26 @@ const PollView = () => {
     
     const fetchPoll = async () => {
       try {
+        console.log(`Fetching poll with ID: ${id}`);
+        setLoading(true);
+        setError(null);
+        
         const foundPoll = await getPollById(id);
+        
         if (foundPoll) {
+          console.log(`Poll found:`, foundPoll);
           setPoll(foundPoll);
-          setLoading(false);
         } else {
+          console.error(`Poll with ID ${id} not found`);
+          setError(`Poll with ID ${id} not found`);
           toast.error(`Poll with ID ${id} not found`);
-          navigate("/not-found");
         }
       } catch (error) {
         console.error("Error fetching poll:", error);
-        toast.error("Error loading poll. Redirecting to home page.");
-        navigate("/");
+        setError(`Error loading poll: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        toast.error("Error loading poll. Please try again.");
+      } finally {
+        setLoading(false);
       }
     };
     
@@ -75,12 +84,15 @@ const PollView = () => {
     );
   }
   
-  if (!poll) {
+  if (error || !poll) {
     return (
       <Layout>
         <div className="flex items-center justify-center min-h-[50vh] flex-col">
-          <p className="text-xl mb-4">Poll not found</p>
-          <Button onClick={() => navigate("/create")}>Create New Poll</Button>
+          <p className="text-xl mb-4">{error || "Poll not found"}</p>
+          <div className="flex gap-4">
+            <Button onClick={() => navigate("/create")}>Create New Poll</Button>
+            <Button variant="outline" onClick={() => navigate("/")}>Go to Home</Button>
+          </div>
         </div>
       </Layout>
     );
