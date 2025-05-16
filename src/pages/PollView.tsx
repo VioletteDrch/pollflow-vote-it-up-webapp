@@ -22,6 +22,13 @@ import { Poll } from "@/types/poll";
 import { getPollById } from "@/services/pollService";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
+
+// This helps us detect if we're running in Lovable preview environment
+const isLovablePreview = () => {
+  return window.location.hostname.includes('lovableproject.com') || 
+         window.location.hostname.includes('lovable.app');
+};
 
 const PollView = () => {
   const { id } = useParams<{ id: string }>();
@@ -43,11 +50,55 @@ const PollView = () => {
         if (foundPoll) {
           setPoll(foundPoll);
         } else {
-          navigate("/not-found");
+          // Handle the case where poll is not found
+          if (isLovablePreview()) {
+            // In Lovable preview, simulate a demo poll with the requested ID
+            console.log("Creating demo poll for Lovable preview with ID:", id);
+            const demoPoll: Poll = {
+              id: id,
+              question: "Demo Poll Question (Lovable Preview)",
+              createdAt: new Date().toISOString(),
+              isTextBased: Math.random() > 0.5, // Randomly pick poll type
+              options: [
+                { id: "opt1", text: "Option 1", votes: Math.floor(Math.random() * 10) },
+                { id: "opt2", text: "Option 2", votes: Math.floor(Math.random() * 10) },
+                { id: "opt3", text: "Option 3", votes: Math.floor(Math.random() * 10) }
+              ],
+              answers: [
+                { id: "ans1", text: "This is a sample text response", createdAt: new Date().toISOString() },
+                { id: "ans2", text: "Another example of a text response", createdAt: new Date().toISOString() }
+              ]
+            };
+            setPoll(demoPoll);
+            toast.info("Using demo data in preview mode");
+          } else {
+            navigate("/not-found");
+          }
         }
       } catch (error) {
         console.error("Error fetching poll:", error);
-        navigate("/not-found");
+        
+        // In Lovable preview, provide a fallback for easier testing
+        if (isLovablePreview()) {
+          console.log("Using fallback demo poll for Lovable preview");
+          const demoPoll: Poll = {
+            id: id || "demo-id",
+            question: "Demo Poll Question (Error Fallback)",
+            createdAt: new Date().toISOString(),
+            isTextBased: true,
+            options: [
+              { id: "opt1", text: "Option 1", votes: 3 },
+              { id: "opt2", text: "Option 2", votes: 7 }
+            ],
+            answers: [
+              { id: "ans1", text: "This is a sample text response", createdAt: new Date().toISOString() }
+            ]
+          };
+          setPoll(demoPoll);
+          toast.info("Using demo data in preview mode");
+        } else {
+          navigate("/not-found");
+        }
       } finally {
         setLoading(false);
       }
