@@ -65,23 +65,12 @@ export const PollCreationForm = () => {
       }
     }
     
-    setIsSubmitting(true);
-    
     try {
-      // Show loading toast
-      toast.loading("Creating poll...");
-      
+      setIsSubmitting(true);
       const newPoll = await createPoll(question, isTextBased ? [] : options.filter(opt => opt.trim() !== ""), isTextBased);
-      
-      // Dismiss loading toast and show success
-      toast.dismiss();
       toast.success("Poll created successfully!");
-      
-      // Navigate to the poll view
       navigate(`/poll/${newPoll.id}`);
     } catch (error) {
-      // Dismiss loading toast and show error
-      toast.dismiss();
       toast.error("Error creating poll");
       console.error(error);
     } finally {
@@ -154,7 +143,7 @@ export const PollCreationForm = () => {
             type="submit"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Creating..." : "Create Poll"}
+            {isSubmitting ? "Creating Poll..." : "Create Poll"}
           </Button>
         </CardFooter>
       </form>
