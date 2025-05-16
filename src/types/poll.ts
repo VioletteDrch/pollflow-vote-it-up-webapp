@@ -1,4 +1,3 @@
-
 /**
  * Type definitions for the poll-related data structures.
  * These types are used throughout the application to ensure
