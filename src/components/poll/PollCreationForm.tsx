@@ -1,5 +1,4 @@
 
-
 /**
  * Form component for creating new polls.
  * Features:
@@ -28,6 +27,7 @@ export const PollCreationForm = () => {
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState<string[]>(["", ""]);
   const [isTextBased, setIsTextBased] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const addOption = () => {
     setOptions([...options, ""]);
@@ -49,7 +49,7 @@ export const PollCreationForm = () => {
     setOptions(newOptions);
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!question.trim()) {
@@ -66,12 +66,15 @@ export const PollCreationForm = () => {
     }
     
     try {
-      const newPoll = createPoll(question, isTextBased ? [] : options.filter(opt => opt.trim() !== ""), isTextBased);
+      setIsSubmitting(true);
+      const newPoll = await createPoll(question, isTextBased ? [] : options.filter(opt => opt.trim() !== ""), isTextBased);
       toast.success("Poll created successfully!");
       navigate(`/poll/${newPoll.id}`);
     } catch (error) {
       toast.error("Error creating poll");
       console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
   
@@ -135,8 +138,12 @@ export const PollCreationForm = () => {
           )}
         </CardContent>
         <CardFooter>
-          <Button className="w-full bg-primary" type="submit">
-            Create Poll
+          <Button 
+            className="w-full bg-primary" 
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Creating Poll..." : "Create Poll"}
           </Button>
         </CardFooter>
       </form>
