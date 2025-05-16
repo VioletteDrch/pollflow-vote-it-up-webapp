@@ -1,3 +1,4 @@
+
 /**
  * Form component for creating new polls.
  * Features:
@@ -77,8 +78,17 @@ export const PollCreationForm = () => {
       toast.dismiss(loadingToast);
       toast.success("Poll created successfully!");
       
-      // Navigate to the home page instead of the poll page to avoid potential 404 issues
-      navigate("/");
+      // Navigate to the poll page with a small delay to ensure backend processing
+      setTimeout(() => {
+        // Only navigate if we have a valid poll ID
+        if (newPoll && newPoll.id) {
+          navigate(`/poll/${newPoll.id}`);
+        } else {
+          // Fallback to home page if no valid ID is returned
+          navigate("/");
+          toast.error("Could not access the new poll. Please try again.");
+        }
+      }, 300);
     } catch (error) {
       console.error("Error creating poll:", error);
       toast.error("Error creating poll. Please try again.");
