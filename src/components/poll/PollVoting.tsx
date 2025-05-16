@@ -34,7 +34,7 @@ export const PollVoting = ({ poll, onVote }: PollVotingProps) => {
   const [chatMode, setChatMode] = useState(poll.isTextBased);
   const [finalSummary, setFinalSummary] = useState<string | null>(null);
   
-  const handleVote = () => {
+  const handleVote = async () => {
     if (!poll.isTextBased && !selectedOption) {
       toast.error("Please select an option");
       return;
@@ -49,7 +49,7 @@ export const PollVoting = ({ poll, onVote }: PollVotingProps) => {
     try {
       if (poll.isTextBased) {
         const answerToSubmit = finalSummary || textAnswer;
-        const updatedPoll = submitPollAnswer(poll.id, answerToSubmit);
+        const updatedPoll = await submitPollAnswer(poll.id, answerToSubmit);
         if (updatedPoll) {
           toast.success("Answer submitted!");
           onVote(updatedPoll);
@@ -57,7 +57,7 @@ export const PollVoting = ({ poll, onVote }: PollVotingProps) => {
           toast.error("Error submitting answer");
         }
       } else {
-        const updatedPoll = votePoll(poll.id, selectedOption!);
+        const updatedPoll = await votePoll(poll.id, selectedOption!);
         if (updatedPoll) {
           toast.success("Vote submitted!");
           onVote(updatedPoll);
@@ -163,7 +163,7 @@ export const PollVoting = ({ poll, onVote }: PollVotingProps) => {
         <Button 
           className="w-full bg-primary" 
           onClick={handleVote}
-          disabled={isSubmitting || (!poll.isTextBased && !selectedOption) || (poll.isTextBased && !textAnswer.trim())}
+          disabled={isSubmitting || (!poll.isTextBased && !selectedOption) || (poll.isTextBased && !textAnswer.trim() && !finalSummary)}
         >
           {isSubmitting ? "Submitting..." : "Submit"}
         </Button>

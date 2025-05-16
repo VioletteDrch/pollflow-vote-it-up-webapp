@@ -1,3 +1,4 @@
+
 /**
  * Page component for viewing a specific poll.
  * Allows users to:
@@ -36,14 +37,20 @@ const PollView = () => {
       return;
     }
     
-    const fetchPoll = () => {
-      const foundPoll = getPollById(id);
-      if (foundPoll) {
-        setPoll(foundPoll);
-      } else {
+    const fetchPoll = async () => {
+      try {
+        const foundPoll = await getPollById(id);
+        if (foundPoll) {
+          setPoll(foundPoll);
+        } else {
+          navigate("/not-found");
+        }
+      } catch (error) {
+        console.error("Error fetching poll:", error);
         navigate("/not-found");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     
     fetchPoll();
