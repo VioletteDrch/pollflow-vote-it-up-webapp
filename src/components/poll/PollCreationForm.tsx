@@ -1,5 +1,4 @@
 
-
 /**
  * Form component for creating new polls.
  * Features:
@@ -49,7 +48,7 @@ export const PollCreationForm = () => {
     setOptions(newOptions);
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!question.trim()) {
@@ -66,7 +65,7 @@ export const PollCreationForm = () => {
     }
     
     try {
-      const newPoll = createPoll(question, isTextBased ? [] : options.filter(opt => opt.trim() !== ""), isTextBased);
+      const newPoll = await createPoll(question, isTextBased ? [] : options.filter(opt => opt.trim() !== ""), isTextBased);
       toast.success("Poll created successfully!");
       navigate(`/poll/${newPoll.id}`);
     } catch (error) {
