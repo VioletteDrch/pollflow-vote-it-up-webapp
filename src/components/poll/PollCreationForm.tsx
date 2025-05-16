@@ -27,6 +27,7 @@ export const PollCreationForm = () => {
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState<string[]>(["", ""]);
   const [isTextBased, setIsTextBased] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const addOption = () => {
     setOptions([...options, ""]);
@@ -64,13 +65,27 @@ export const PollCreationForm = () => {
       }
     }
     
+    setIsSubmitting(true);
+    
     try {
+      // Show loading toast
+      toast.loading("Creating poll...");
+      
       const newPoll = await createPoll(question, isTextBased ? [] : options.filter(opt => opt.trim() !== ""), isTextBased);
+      
+      // Dismiss loading toast and show success
+      toast.dismiss();
       toast.success("Poll created successfully!");
+      
+      // Navigate to the poll view
       navigate(`/poll/${newPoll.id}`);
     } catch (error) {
+      // Dismiss loading toast and show error
+      toast.dismiss();
       toast.error("Error creating poll");
       console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
   
@@ -134,8 +149,12 @@ export const PollCreationForm = () => {
           )}
         </CardContent>
         <CardFooter>
-          <Button className="w-full bg-primary" type="submit">
-            Create Poll
+          <Button 
+            className="w-full bg-primary" 
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Creating..." : "Create Poll"}
           </Button>
         </CardFooter>
       </form>
