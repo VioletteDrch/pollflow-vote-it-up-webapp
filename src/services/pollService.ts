@@ -15,7 +15,7 @@ const STORAGE_KEY = "pollflow_polls";
 const API_BASE_URL = "http://localhost:8000"; // Assumes FastAPI is running on port 8000
 
 // Environment detection - updated to properly check for local environment
-const isLocalBackend = (): boolean => {
+export const isLocalBackend = (): boolean => {
   // Check if we're running in a local development environment
   // This will be true when running locally with 'npm run dev' or similar
   const isLocalHost = window.location.hostname === 'localhost' || 
