@@ -1,44 +1,17 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, MessageCircle } from "lucide-react";
-
-type Message = {
-  id: string;
-  content: string;
-  sender: "user" | "ai";
-  timestamp: Date;
-};
+import { chatRespond, generateSummary } from "@/services/chatService";
+import { Message } from "@/types/chat";
+import { generateId } from "@/services/utils/idUtils";
+import { toast } from "@/hooks/use-toast";
 
 type ChatInterfaceProps = {
   question: string;
   onSummaryComplete: (summary: string) => void;
-};
-
-const generateId = () => Math.random().toString(36).substring(2, 15);
-
-// Simulated AI responses - to be replaced with actual AI integration
-const simulateAIResponse = async (message: string, question: string): Promise<string> => {
-  // This is a placeholder that would be replaced with actual AI call
-  const responses = [
-    `That's an interesting perspective on "${question}". Can you elaborate more?`,
-    `I understand your point. Have you considered other aspects of this issue?`,
-    `Thanks for sharing. Would you like me to provide more information about this topic?`,
-    `That's a valid view. Is there anything specific you'd like to know about this question?`
-  ];
-  
-  await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
-  return responses[Math.floor(Math.random() * responses.length)];
-};
-
-// Simulated summary generation - to be replaced with actual AI summary
-const generateSummary = async (messages: Message[], question: string): Promise<string> => {
-  await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate processing
-  const userMessages = messages.filter(m => m.sender === "user").map(m => m.content).join(" ");
-  return `Based on our conversation about "${question}", your main points appear to be: ${userMessages.substring(0, 100)}... Is this summary accurate?`;
 };
 
 export const ChatInterface = ({ question, onSummaryComplete }: ChatInterfaceProps) => {
@@ -82,9 +55,9 @@ export const ChatInterface = ({ question, onSummaryComplete }: ChatInterfaceProp
     setInputValue("");
     setIsTyping(true);
     
-    // Simulate AI response
+    // Get AI response from service
     try {
-      const response = await simulateAIResponse(inputValue, question);
+      const response = await chatRespond(question, inputValue);
       
       // Add AI message
       const aiMessage: Message = {
@@ -97,6 +70,11 @@ export const ChatInterface = ({ question, onSummaryComplete }: ChatInterfaceProp
       setMessages(prev => [...prev, aiMessage]);
     } catch (error) {
       console.error("Error getting AI response:", error);
+      toast({
+        title: "Error",
+        description: "Failed to get response. Please try again.",
+        variant: "destructive"
+      });
       
       // Add error message
       const errorMessage: Message = {
@@ -124,10 +102,15 @@ export const ChatInterface = ({ question, onSummaryComplete }: ChatInterfaceProp
     setIsGeneratingSummary(true);
     
     try {
-      const generatedSummary = await generateSummary(messages, question);
+      const generatedSummary = await generateSummary(question, messages);
       setSummary(generatedSummary);
     } catch (error) {
       console.error("Error generating summary:", error);
+      toast({
+        title: "Error",
+        description: "Failed to generate summary. Please try again.",
+        variant: "destructive"
+      });
     } finally {
       setIsGeneratingSummary(false);
     }

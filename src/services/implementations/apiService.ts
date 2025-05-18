@@ -1,10 +1,10 @@
-
 /**
  * Implementation of poll service using API calls to a backend.
  * This is used in the local development environment.
  */
 
 import { Poll } from "@/types/poll";
+import { ChatRequest, ChatResponse, SummaryRequest, SummaryResponse } from "@/types/chat";
 import { logApiCall } from "../utils/logUtils";
 
 // Constants
@@ -188,6 +188,59 @@ export const api_submitPollAnswer = async (pollId: string, text: string): Promis
     console.error(`Error submitting answer to poll ${pollId}:`, error);
     logApiCall('POST', endpoint, null, `Error: ${error}`);
     // No fallback in local environment
+    throw error;
+  }
+};
+
+// Chat API Functions
+export const api_chatRespond = async (question: string, message: string): Promise<string> => {
+  const endpoint = `${API_BASE_URL}/api/chat/respond`;
+  console.log(`🌐 API CALL: POST ${endpoint}`);
+  
+  const requestData: ChatRequest = { question, message };
+  logApiCall('POST', endpoint, requestData, null);
+  
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestData)
+    });
+    
+    if (!response.ok) throw new Error(`API error: ${response.status}`);
+    
+    const data: ChatResponse = await response.json();
+    logApiCall('POST', endpoint, null, `Response received`);
+    return data.response;
+  } catch (error) {
+    console.error('Error getting chat response:', error);
+    logApiCall('POST', endpoint, null, `Error: ${error}`);
+    throw error;
+  }
+};
+
+export const api_generateSummary = async (question: string, messages: any[]): Promise<string> => {
+  const endpoint = `${API_BASE_URL}/api/chat/summary`;
+  console.log(`🌐 API CALL: POST ${endpoint}`);
+  
+  const requestData: SummaryRequest = { question, messages };
+  logApiCall('POST', endpoint, requestData, null);
+  
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestData)
+    });
+    
+    if (!response.ok) throw new Error(`API error: ${response.status}`);
+    
+    const data: SummaryResponse = await response.json();
+    logApiCall('POST', endpoint, null, `Summary generated`);
+    return data.summary;
+  } catch (error) {
+    console.error('Error generating summary:', error);
+    logApiCall('POST', endpoint, null, `Error: ${error}`);
     throw error;
   }
 };
