@@ -4,6 +4,7 @@
  */
 
 import { Poll } from "@/types/poll";
+import { AnalysisResponse } from "@/types/analysis";
 import { apiGet, apiPost, apiPut } from "./apiUtils";
 
 /**
@@ -110,4 +111,12 @@ export const api_submitPollAnswer = async (pollId: string, text: string): Promis
     console.error(`Error submitting answer to poll ${pollId}:`, error);
     throw error;
   }
+};
+
+/**
+ * Analyzes opinions from a poll
+ */
+export const api_analyzeOpinions = async (pollId: string): Promise<string> => {
+  const data = await apiPost<AnalysisResponse>(`/api/polls/${pollId}/analyze`, {}, 'Analysis generated');
+  return data.analysis;
 };

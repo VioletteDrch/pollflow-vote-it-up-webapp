@@ -3,7 +3,7 @@
  * API implementation for chat-related operations.
  */
 
-import { ChatRequest, ChatResponse, SummaryRequest, SummaryResponse, AnalysisRequest, AnalysisResponse } from "@/types/chat";
+import { ChatRequest, ChatResponse, SummaryRequest, SummaryResponse } from "@/types/chat";
 import { apiPost } from "./apiUtils";
 
 /**
@@ -22,12 +22,4 @@ export const api_generateSummary = async (question: string, messages: any[]): Pr
   const requestData: SummaryRequest = { question, messages };
   const data = await apiPost<SummaryResponse>('/api/chat/summary', requestData, 'Summary generated');
   return data.summary;
-};
-
-/**
- * Analyzes opinions from a poll
- */
-export const api_analyzeOpinions = async (pollId: string): Promise<string> => {
-  const data = await apiPost<AnalysisResponse>(`/api/chat/analyze/${pollId}`, {}, 'Analysis generated');
-  return data.analysis;
 };
