@@ -1,4 +1,3 @@
-
 /**
  * Component for displaying poll results.
  * Shows different UI based on poll type:
@@ -13,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Poll } from "@/types/poll";
 import { Button } from "@/components/ui/button";
-import { BarChart2, FileExport } from "lucide-react";
+import { BarChart2, FileText } from "lucide-react";
 import { toast } from "sonner";
 import { analyzeOpinions } from "@/services/chatService";
 import { generateAnalysisPDF, downloadBlob } from "@/utils/pdfUtils";
@@ -114,7 +113,7 @@ export const PollResults = ({ poll }: PollResultsProps) => {
                   variant="outline"
                   className="gap-2"
                 >
-                  <FileExport className="h-4 w-4" />
+                  <FileText className="h-4 w-4" />
                   {isExporting ? "Exporting..." : "Export PDF"}
                 </Button>
               </div>
