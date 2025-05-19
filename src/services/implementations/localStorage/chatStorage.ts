@@ -1,4 +1,3 @@
-
 /**
  * Implementation of chat service using localStorage for data persistence.
  * This is used in the Lovable environment for chat-related functionality.
@@ -7,6 +6,7 @@
 import { Message } from "@/types/chat";
 import { PollAnswer } from "@/types/poll";
 import { logApiCall } from "../../utils/logUtils";
+import { getPollById } from "@/services/pollService";
 
 export const localStorage_chatRespond = async (message: string, question: string): Promise<string> => {
   console.log(`🌐 API CALL: POST /api/chat/respond [SIMULATED]`);
@@ -48,11 +48,20 @@ export const localStorage_generateSummary = async (question: string, messages: M
   return summary;
 };
 
-export const localStorage_analyzeOpinions = async (pollId: string, question: string, answers: PollAnswer[]): Promise<string> => {
-  console.log(`🌐 API CALL: POST /api/chat/analyze [SIMULATED]`);
+export const localStorage_analyzeOpinions = async (pollId: string): Promise<string> => {
+  console.log(`🌐 API CALL: POST /api/chat/analyze/${pollId} [SIMULATED]`);
   
-  const requestData = { pollId, question, answers };
-  logApiCall('POST', '/api/chat/analyze', requestData, null);
+  logApiCall('POST', `/api/chat/analyze/${pollId}`, { pollId }, null);
+  
+  // Fetch the poll to get its data for analysis
+  const poll = await getPollById(pollId);
+  
+  if (!poll || !poll.isTextBased || !poll.answers || poll.answers.length === 0) {
+    throw new Error("No text responses to analyze");
+  }
+  
+  const question = poll.question;
+  const answers = poll.answers;
   
   // Simulate network delay (longer for analysis)
   await new Promise(resolve => setTimeout(resolve, 2000));
@@ -72,7 +81,7 @@ ${Math.random() > 0.7 ? "strong emotional content" : "factual observations"}.
 Respondents seem ${Math.random() > 0.5 ? "well-informed" : "somewhat uncertain"} about the topic, with 
 ${Math.floor(Math.random() * 70) + 30}% providing specific examples or personal experiences.`;
   
-  logApiCall('POST', '/api/chat/analyze', null, `Analysis generated [SIMULATED]`);
+  logApiCall('POST', `/api/chat/analyze/${pollId}`, null, `Analysis generated [SIMULATED]`);
   
   return analysis;
 };

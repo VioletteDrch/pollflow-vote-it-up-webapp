@@ -20,5 +20,5 @@ export interface ChatService {
   /**
    * Analyzes opinions from a poll
    */
-  analyzeOpinions: (pollId: string, question: string, answers: any[]) => Promise<string>;
+  analyzeOpinions: (pollId: string) => Promise<string>;
 }
