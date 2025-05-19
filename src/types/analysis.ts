@@ -1,7 +1,8 @@
+
 export interface AnalysisRequest {
-    pollId: string;
-  }
-  
-  export interface AnalysisResponse {
-    analysis: string;
-  }
+  pollId: string;
+}
+
+export interface AnalysisResponse {
+  analysis: string;
+}

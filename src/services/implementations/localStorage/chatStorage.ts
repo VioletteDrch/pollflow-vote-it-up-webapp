@@ -1,3 +1,4 @@
+
 /**
  * Implementation of chat service using localStorage for data persistence.
  * This is used in the Lovable environment for chat-related functionality.
@@ -8,7 +9,7 @@ import { PollAnswer } from "@/types/poll";
 import { logApiCall } from "../../utils/logUtils";
 import { getPollById } from "@/services/pollService";
 
-export const localStorage_chatRespond = async (message: string, question: string): Promise<string> => {
+export const localStorage_chatRespond = async (question: string, message: string): Promise<string> => {
   console.log(`🌐 API CALL: POST /api/chat/respond [SIMULATED]`);
   
   const requestData = { question, message };
@@ -49,9 +50,9 @@ export const localStorage_generateSummary = async (question: string, messages: M
 };
 
 export const localStorage_analyzeOpinions = async (pollId: string): Promise<string> => {
-  console.log(`🌐 API CALL: POST /api/chat/analyze/${pollId} [SIMULATED]`);
+  console.log(`🌐 API CALL: POST /api/polls/${pollId}/analyze [SIMULATED]`);
   
-  logApiCall('POST', `/api/chat/analyze/${pollId}`, { pollId }, null);
+  logApiCall('POST', `/api/polls/${pollId}/analyze`, { pollId }, null);
   
   // Fetch the poll to get its data for analysis
   const poll = await getPollById(pollId);
@@ -81,7 +82,7 @@ ${Math.random() > 0.7 ? "strong emotional content" : "factual observations"}.
 Respondents seem ${Math.random() > 0.5 ? "well-informed" : "somewhat uncertain"} about the topic, with 
 ${Math.floor(Math.random() * 70) + 30}% providing specific examples or personal experiences.`;
   
-  logApiCall('POST', `/api/chat/analyze/${pollId}`, null, `Analysis generated [SIMULATED]`);
+  logApiCall('POST', `/api/polls/${pollId}/analyze`, null, `Analysis generated [SIMULATED]`);
   
   return analysis;
 };
