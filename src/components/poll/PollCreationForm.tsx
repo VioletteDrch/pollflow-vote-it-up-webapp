@@ -1,3 +1,4 @@
+
 /**
  * Form component for creating new polls.
  * Features:
@@ -68,26 +69,23 @@ export const PollCreationForm = () => {
       setIsSubmitting(true);
       const filteredOptions = isTextBased ? [] : options.filter(opt => opt.trim() !== "");
       
-      // Show a loading toast
-      const loadingToast = toast.loading("Creating your poll...");
-      
-      const newPoll = await createPoll(question, filteredOptions, isTextBased);
-      
-      // Dismiss the loading toast and show success
-      toast.dismiss(loadingToast);
-      toast.success("Poll created successfully!");
-      
-      // Navigate to the poll page immediately since we're using localStorage
-      if (newPoll && newPoll.id) {
-        navigate(`/poll/${newPoll.id}`);
-      } else {
-        toast.error("Error creating poll. Please try again.");
-        navigate("/");
-      }
+      toast.promise(
+        createPoll(question, filteredOptions, isTextBased),
+        {
+          loading: "Creating your poll...",
+          success: (newPoll) => {
+            // Navigate to the poll page immediately since we're using localStorage
+            if (newPoll && newPoll.id) {
+              navigate(`/poll/${newPoll.id}`);
+            }
+            return "Poll created successfully!";
+          },
+          error: "Error creating poll. Please try again."
+        }
+      );
     } catch (error) {
       console.error("Error creating poll:", error);
       toast.error("Error creating poll. Please try again.");
-    } finally {
       setIsSubmitting(false);
     }
   };
