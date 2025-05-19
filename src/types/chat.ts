@@ -27,3 +27,17 @@ export interface SummaryRequest {
 export interface SummaryResponse {
   summary: string;
 }
+
+export interface AnalysisRequest {
+  pollId: string;
+  question: string;
+  answers: {
+    id: string;
+    text: string;
+    createdAt: string;
+  }[];
+}
+
+export interface AnalysisResponse {
+  analysis: string;
+}

@@ -244,3 +244,38 @@ export const api_generateSummary = async (question: string, messages: any[]): Pr
     throw error;
   }
 };
+
+export const api_analyzeOpinions = async (pollId: string, question: string, answers: any[]): Promise<string> => {
+  const endpoint = `${API_BASE_URL}/api/chat/analyze`;
+  console.log(`🌐 API CALL: POST ${endpoint}`);
+  
+  const requestData: AnalysisRequest = { 
+    pollId,
+    question,
+    answers: answers.map(answer => ({
+      id: answer.id,
+      text: answer.text,
+      createdAt: answer.createdAt.toISOString()
+    }))
+  };
+  
+  logApiCall('POST', endpoint, requestData, null);
+  
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestData)
+    });
+    
+    if (!response.ok) throw new Error(`API error: ${response.status}`);
+    
+    const data: AnalysisResponse = await response.json();
+    logApiCall('POST', endpoint, null, `Analysis generated`);
+    return data.analysis;
+  } catch (error) {
+    console.error('Error analyzing opinions:', error);
+    logApiCall('POST', endpoint, null, `Error: ${error}`);
+    throw error;
+  }
+};

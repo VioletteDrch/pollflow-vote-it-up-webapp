@@ -1,5 +1,4 @@
 
-
 /**
  * Component for displaying poll results.
  * Shows different UI based on poll type:
@@ -13,12 +12,40 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Poll } from "@/types/poll";
+import { Button } from "@/components/ui/button";
+import { BarChart2 } from "lucide-react";
+import { toast } from "sonner";
+import { analyzeOpinions } from "@/services/chatService";
 
 type PollResultsProps = {
   poll: Poll;
 };
 
 export const PollResults = ({ poll }: PollResultsProps) => {
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysis, setAnalysis] = useState<string | null>(null);
+  
+  const handleAnalyzeOpinions = async () => {
+    if (!poll.isTextBased || poll.answers.length === 0) {
+      toast.error("No text responses to analyze");
+      return;
+    }
+    
+    setIsAnalyzing(true);
+    setAnalysis(null);
+    
+    try {
+      const result = await analyzeOpinions(poll.id, poll.question, poll.answers);
+      setAnalysis(result);
+      toast.success("Analysis complete!");
+    } catch (error) {
+      console.error("Error analyzing opinions:", error);
+      toast.error("Failed to analyze opinions. Please try again.");
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+  
   if (poll.isTextBased) {
     if (!poll.answers || poll.answers.length === 0) {
       return (
@@ -44,6 +71,24 @@ export const PollResults = ({ poll }: PollResultsProps) => {
           </p>
         </CardHeader>
         <CardContent>
+          {analysis && (
+            <div className="mb-6 p-4 bg-muted/50 border rounded-lg">
+              <h3 className="text-sm font-medium mb-2">AI Opinion Analysis:</h3>
+              <p className="text-sm">{analysis}</p>
+            </div>
+          )}
+          
+          <div className="flex justify-end mb-4">
+            <Button 
+              onClick={handleAnalyzeOpinions}
+              disabled={isAnalyzing || poll.answers.length === 0}
+              className="gap-2"
+            >
+              <BarChart2 className="h-4 w-4" />
+              {isAnalyzing ? "Analyzing..." : "Analyze Opinions"}
+            </Button>
+          </div>
+          
           <ScrollArea className="h-[400px]">
             <div className="space-y-6">
               {poll.answers.map((answer) => (

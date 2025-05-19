@@ -185,3 +185,32 @@ export const localStorage_generateSummary = async (question: string, messages: M
   
   return summary;
 };
+
+export const localStorage_analyzeOpinions = async (pollId: string, question: string, answers: PollAnswer[]): Promise<string> => {
+  console.log(`🌐 API CALL: POST /api/chat/analyze [SIMULATED]`);
+  
+  const requestData = { pollId, question, answers };
+  logApiCall('POST', '/api/chat/analyze', requestData, null);
+  
+  // Simulate network delay (longer for analysis)
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  
+  // Generate a simulated analysis based on the answers
+  const answerTexts = answers.map(a => a.text).join(" ");
+  const wordCount = answerTexts.split(/\s+/).length;
+  const sentimentWords = ["positive", "negative", "neutral", "mixed", "enthusiastic", "concerned"];
+  const randomSentiment = sentimentWords[Math.floor(Math.random() * sentimentWords.length)];
+  
+  const analysis = `Analysis of ${answers.length} responses to "${question}":
+  
+The overall sentiment appears to be ${randomSentiment}. The responses contain approximately ${wordCount} words. 
+Common themes include ${Math.random() > 0.5 ? "agreement on core issues" : "diverse perspectives"} with 
+${Math.random() > 0.7 ? "strong emotional content" : "factual observations"}.
+  
+Respondents seem ${Math.random() > 0.5 ? "well-informed" : "somewhat uncertain"} about the topic, with 
+${Math.floor(Math.random() * 70) + 30}% providing specific examples or personal experiences.`;
+  
+  logApiCall('POST', '/api/chat/analyze', null, `Analysis generated [SIMULATED]`);
+  
+  return analysis;
+};
