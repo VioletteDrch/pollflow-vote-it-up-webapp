@@ -1,10 +1,11 @@
+
 /**
  * Implementation of poll service using API calls to a backend.
  * This is used in the local development environment.
  */
 
 import { Poll } from "@/types/poll";
-import { ChatRequest, ChatResponse, SummaryRequest, SummaryResponse } from "@/types/chat";
+import { ChatRequest, ChatResponse, SummaryRequest, SummaryResponse, AnalysisRequest, AnalysisResponse } from "@/types/chat";
 import { logApiCall } from "../utils/logUtils";
 
 // Constants

@@ -5,10 +5,10 @@
  * based on the environment.
  */
 
-import { Message } from "@/types/chat";
+import { Message, AnalysisRequest, AnalysisResponse } from "@/types/chat";
 import { isLocalBackend } from "@/services/utils/environmentUtils";
-import { api_chatRespond, api_generateSummary } from "./implementations/apiService";
-import { localStorage_chatRespond, localStorage_generateSummary } from "./implementations/localStorageService";
+import { api_chatRespond, api_generateSummary, api_analyzeOpinions } from "./implementations/apiService";
+import { localStorage_chatRespond, localStorage_generateSummary, localStorage_analyzeOpinions } from "./implementations/localStorageService";
 
 // Determine which implementation to use based on environment
 const isLocal = !isLocalBackend();
@@ -30,4 +30,13 @@ export const generateSummary = async (question: string, messages: Message[]): Pr
   return isLocal
     ? localStorage_generateSummary(question, messages)
     : api_generateSummary(question, messages);
+};
+
+/**
+ * Analyzes opinions from a poll
+ */
+export const analyzeOpinions = async (pollId: string, question: string, answers: any[]): Promise<string> => {
+  return isLocal
+    ? localStorage_analyzeOpinions(pollId, question, answers)
+    : api_analyzeOpinions(pollId, question, answers);
 };

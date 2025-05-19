@@ -1,10 +1,11 @@
+
 /**
  * Implementation of poll service using localStorage for data persistence.
  * This is used in the Lovable environment.
  */
 
 import { Poll, PollOption, PollAnswer } from "@/types/poll";
-import { Message } from "@/types/chat";
+import { Message, AnalysisRequest, AnalysisResponse } from "@/types/chat";
 import { generateId } from "../utils/idUtils";
 import { logApiCall } from "../utils/logUtils";
 
