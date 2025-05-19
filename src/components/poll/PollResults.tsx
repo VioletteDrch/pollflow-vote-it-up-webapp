@@ -13,9 +13,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Poll } from "@/types/poll";
 import { Button } from "@/components/ui/button";
-import { BarChart2 } from "lucide-react";
+import { BarChart2, FileExport } from "lucide-react";
 import { toast } from "sonner";
 import { analyzeOpinions } from "@/services/chatService";
+import { generateAnalysisPDF, downloadBlob } from "@/utils/pdfUtils";
 
 type PollResultsProps = {
   poll: Poll;
@@ -24,6 +25,7 @@ type PollResultsProps = {
 export const PollResults = ({ poll }: PollResultsProps) => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<string | null>(null);
+  const [isExporting, setIsExporting] = useState(false);
   
   const handleAnalyzeOpinions = async () => {
     if (!poll.isTextBased || poll.answers.length === 0) {
@@ -43,6 +45,36 @@ export const PollResults = ({ poll }: PollResultsProps) => {
       toast.error("Failed to analyze opinions. Please try again.");
     } finally {
       setIsAnalyzing(false);
+    }
+  };
+  
+  const handleExportAnalysis = async () => {
+    if (!analysis) {
+      toast.error("No analysis available to export");
+      return;
+    }
+    
+    try {
+      setIsExporting(true);
+      
+      // Generate the PDF
+      const pdfBlob = generateAnalysisPDF(poll.question, analysis);
+      
+      // Create a sanitized filename (replace spaces and special characters)
+      const sanitizedQuestion = poll.question
+        .substring(0, 30)
+        .replace(/[^a-z0-9]/gi, '_')
+        .toLowerCase();
+      
+      // Download the PDF
+      downloadBlob(pdfBlob, `poll-analysis-${sanitizedQuestion}-${poll.id}.pdf`);
+      
+      toast.success("Analysis exported as PDF");
+    } catch (error) {
+      console.error("Error exporting analysis:", error);
+      toast.error("Failed to export analysis. Please try again.");
+    } finally {
+      setIsExporting(false);
     }
   };
   
@@ -73,7 +105,19 @@ export const PollResults = ({ poll }: PollResultsProps) => {
         <CardContent>
           {analysis && (
             <div className="mb-6 p-4 bg-muted/50 border rounded-lg">
-              <h3 className="text-sm font-medium mb-2">AI Opinion Analysis:</h3>
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-sm font-medium">AI Opinion Analysis:</h3>
+                <Button 
+                  onClick={handleExportAnalysis}
+                  disabled={isExporting}
+                  size="sm"
+                  variant="outline"
+                  className="gap-2"
+                >
+                  <FileExport className="h-4 w-4" />
+                  {isExporting ? "Exporting..." : "Export PDF"}
+                </Button>
+              </div>
               <p className="text-sm">{analysis}</p>
             </div>
           )}
