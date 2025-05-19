@@ -41,10 +41,10 @@ const chatService: ChatService = {
   /**
    * Analyzes opinions from a poll
    */
-  analyzeOpinions: async (pollId: string, question: string, answers: any[]): Promise<string> => {
+  analyzeOpinions: async (pollId: string): Promise<string> => {
     return isLocal
-      ? localStorage_analyzeOpinions(pollId, question, answers)
-      : api_analyzeOpinions(pollId, question, answers);
+      ? localStorage_analyzeOpinions(pollId)
+      : api_analyzeOpinions(pollId);
   }
 };
 

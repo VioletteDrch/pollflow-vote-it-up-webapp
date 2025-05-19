@@ -1,3 +1,4 @@
+
 /**
  * Component for displaying poll results.
  * Shows different UI based on poll type:
@@ -36,7 +37,7 @@ export const PollResults = ({ poll }: PollResultsProps) => {
     setAnalysis(null);
     
     try {
-      const result = await analyzeOpinions(poll.id, poll.question, poll.answers);
+      const result = await analyzeOpinions(poll.id);
       setAnalysis(result);
       toast.success("Analysis complete!");
     } catch (error) {

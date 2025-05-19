@@ -27,17 +27,7 @@ export const api_generateSummary = async (question: string, messages: any[]): Pr
 /**
  * Analyzes opinions from a poll
  */
-export const api_analyzeOpinions = async (pollId: string, question: string, answers: any[]): Promise<string> => {
-  const requestData: AnalysisRequest = { 
-    pollId,
-    question,
-    answers: answers.map(answer => ({
-      id: answer.id,
-      text: answer.text,
-      createdAt: answer.createdAt.toISOString()
-    }))
-  };
-  
-  const data = await apiPost<AnalysisResponse>('/api/chat/analyze', requestData, 'Analysis generated');
+export const api_analyzeOpinions = async (pollId: string): Promise<string> => {
+  const data = await apiPost<AnalysisResponse>(`/api/chat/analyze/${pollId}`, {}, 'Analysis generated');
   return data.analysis;
 };
