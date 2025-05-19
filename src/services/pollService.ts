@@ -15,14 +15,16 @@ import {
   localStorage_getPollById, 
   localStorage_createPoll,
   localStorage_votePoll,
-  localStorage_submitPollAnswer
+  localStorage_submitPollAnswer,
+  localStorage_analyzeOpinions
 } from "./implementations/localStorageService";
 import {
   api_getPolls,
   api_getPollById,
   api_createPoll,
   api_votePoll,
-  api_submitPollAnswer
+  api_submitPollAnswer,
+  api_analyzeOpinions
 } from "./implementations/apiService";
 
 // Public API - Dynamically selects implementation based on environment
@@ -47,6 +49,10 @@ export const votePoll = async (pollId: string, optionId: string): Promise<Poll |
 export const submitPollAnswer = async (pollId: string, text: string): Promise<Poll | undefined> => {
   return isLocalBackend() ? api_submitPollAnswer(pollId, text) : localStorage_submitPollAnswer(pollId, text);
 };
+
+export const analyzeOpinions = async (pollId: string): Promise<string> => {
+  return isLocalBackend() ? api_analyzeOpinions(pollId) : localStorage_analyzeOpinions(pollId);
+}
 
 // Log which environment we're using
 console.log(`🌐 PollFlow API mode: ${isLocalBackend() ? 'Local Backend API' : 'Lovable LocalStorage'}`);

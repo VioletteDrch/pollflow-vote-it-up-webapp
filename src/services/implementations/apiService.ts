@@ -9,14 +9,11 @@ export {
   api_getPollById,
   api_createPoll,
   api_votePoll,
-  api_submitPollAnswer
+  api_submitPollAnswer,
+  api_analyzeOpinions
 } from './api/pollApi';
 
 export {
   api_chatRespond,
   api_generateSummary
 } from './api/chatApi';
-
-export {
-  api_analyzeOpinions
-} from './api/pollApi';

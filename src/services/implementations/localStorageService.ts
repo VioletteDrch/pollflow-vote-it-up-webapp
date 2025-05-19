@@ -9,11 +9,11 @@ export {
   localStorage_getPollById,
   localStorage_createPoll,
   localStorage_votePoll,
-  localStorage_submitPollAnswer
+  localStorage_submitPollAnswer,
+  localStorage_analyzeOpinions
 } from './localStorage/pollStorage';
 
 export {
   localStorage_chatRespond,
   localStorage_generateSummary,
-  localStorage_analyzeOpinions
 } from './localStorage/chatStorage';

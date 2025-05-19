@@ -7,8 +7,8 @@
 
 import { Message } from "@/types/chat";
 import { isLocalBackend } from "@/services/utils/environmentUtils";
-import { api_chatRespond, api_generateSummary, api_analyzeOpinions } from "./implementations/apiService";
-import { localStorage_chatRespond, localStorage_generateSummary, localStorage_analyzeOpinions } from "./implementations/localStorageService";
+import { api_chatRespond, api_generateSummary } from "./implementations/apiService";
+import { localStorage_chatRespond, localStorage_generateSummary } from "./implementations/localStorageService";
 import { ChatService } from "./interfaces/chatService";
 
 // Determine which implementation to use based on environment
@@ -36,20 +36,11 @@ const chatService: ChatService = {
     return isLocal
       ? localStorage_generateSummary(question, messages)
       : api_generateSummary(question, messages);
-  },
-
-  /**
-   * Analyzes opinions from a poll
-   */
-  analyzeOpinions: async (pollId: string): Promise<string> => {
-    return isLocal
-      ? localStorage_analyzeOpinions(pollId)
-      : api_analyzeOpinions(pollId);
   }
 };
 
 // Export individual methods for direct use
-export const { chatRespond, generateSummary, analyzeOpinions } = chatService;
+export const { chatRespond, generateSummary } = chatService;
 
 // Export the whole service as default
 export default chatService;

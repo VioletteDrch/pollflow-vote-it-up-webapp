@@ -15,7 +15,7 @@ import { Poll } from "@/types/poll";
 import { Button } from "@/components/ui/button";
 import { BarChart2, FileText } from "lucide-react";
 import { toast } from "sonner";
-import { analyzeOpinions } from "@/services/chatService";
+import { analyzeOpinions } from "@/services/pollService";
 import { generateAnalysisPDF, downloadBlob } from "@/utils/pdfUtils";
 
 type PollResultsProps = {

@@ -16,9 +16,4 @@ export interface ChatService {
    * Generates a summary of a chat conversation
    */
   generateSummary: (question: string, messages: Message[]) => Promise<string>;
-  
-  /**
-   * Analyzes opinions from a poll
-   */
-  analyzeOpinions: (pollId: string) => Promise<string>;
 }
