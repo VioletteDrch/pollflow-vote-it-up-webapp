@@ -14,6 +14,9 @@ export {
 
 export {
   api_chatRespond,
-  api_generateSummary,
-  api_analyzeOpinions
+  api_generateSummary
 } from './api/chatApi';
+
+export {
+  api_analyzeOpinions
+} from './api/pollApi';
