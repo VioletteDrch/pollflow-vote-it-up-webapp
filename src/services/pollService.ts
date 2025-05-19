@@ -30,6 +30,9 @@ import {
 // Public API - Dynamically selects implementation based on environment
 export { isLocalBackend };
 
+// Log which environment we're using
+console.log(`🌐 PollFlow API mode: ${isLocalBackend() ? 'Local Backend API' : 'Lovable LocalStorage'}`);
+
 export const getPolls = async (): Promise<Poll[]> => {
   return isLocalBackend() ? api_getPolls() : localStorage_getPolls();
 };
@@ -54,5 +57,3 @@ export const analyzeOpinions = async (pollId: string): Promise<string> => {
   return isLocalBackend() ? api_analyzeOpinions(pollId) : localStorage_analyzeOpinions(pollId);
 }
 
-// Log which environment we're using
-console.log(`🌐 PollFlow API mode: ${isLocalBackend() ? 'Local Backend API' : 'Lovable LocalStorage'}`);

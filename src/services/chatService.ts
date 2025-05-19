@@ -12,8 +12,7 @@ import { localStorage_chatRespond, localStorage_generateSummary } from "./implem
 import { ChatService } from "./interfaces/chatService";
 
 // Determine which implementation to use based on environment
-const isLocal = !isLocalBackend();
-console.log(`🌐 ChatService mode: ${isLocal ? 'Lovable LocalStorage' : 'API'}`);
+console.log(`🌐 ChatService mode: ${isLocalBackend() ? 'API' : 'Lovable LocalStorage'}`);
 
 /**
  * Chat service implementation that automatically selects the appropriate
@@ -24,18 +23,14 @@ const chatService: ChatService = {
    * Gets an AI response to a user message
    */
   chatRespond: async (question: string, message: string): Promise<string> => {
-    return isLocal
-      ? localStorage_chatRespond(message, question)
-      : api_chatRespond(question, message);
+    return isLocalBackend() ? api_chatRespond(question, message) : localStorage_chatRespond(message, question);
   },
 
   /**
    * Generates a summary of a chat conversation
    */
   generateSummary: async (question: string, messages: Message[]): Promise<string> => {
-    return isLocal
-      ? localStorage_generateSummary(question, messages)
-      : api_generateSummary(question, messages);
+    return isLocalBackend() ? api_generateSummary(question, messages) : localStorage_generateSummary(question, messages);
   }
 };
 
