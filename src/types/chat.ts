@@ -1,4 +1,3 @@
-
 /**
  * Types for chat functionality.
  */
@@ -13,6 +12,7 @@ export interface Message {
 export interface ChatRequest {
   question: string;
   message: string;
+  messages: Message[];
 }
 
 export interface ChatResponse {

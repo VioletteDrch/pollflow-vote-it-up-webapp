@@ -41,13 +41,14 @@ export const ChatInterface = ({ question, onSummaryComplete }: ChatInterfaceProp
       timestamp: new Date(),
     };
     
-    setMessages(prev => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setInputValue("");
     setIsTyping(true);
     
     // Get AI response from service
     try {
-      const response = await chatRespond(question, inputValue);
+      const response = await chatRespond(question, inputValue, updatedMessages);
       
       // Add AI message
       const aiMessage: Message = {

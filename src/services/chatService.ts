@@ -22,8 +22,8 @@ const chatService: ChatService = {
   /**
    * Gets an AI response to a user message
    */
-  chatRespond: async (question: string, message: string): Promise<string> => {
-    return isLocalBackend() ? api_chatRespond(question, message) : localStorage_chatRespond(message, question);
+  chatRespond: async (question: string, message: string, messages: Message[]): Promise<string> => {
+    return isLocalBackend() ? api_chatRespond(question, message, messages) : localStorage_chatRespond(question, message, messages);
   },
 
   /**

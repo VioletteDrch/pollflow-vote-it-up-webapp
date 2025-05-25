@@ -3,15 +3,15 @@
  * API implementation for chat-related operations.
  */
 
-import { ChatRequest, ChatResponse, SummaryRequest, SummaryResponse } from "@/types/chat";
+import { ChatRequest, ChatResponse, SummaryRequest, SummaryResponse, Message } from "@/types/chat";
 import { AnalysisRequest, AnalysisResponse } from "@/types/analysis";
 import { apiPost } from "./apiUtils";
 
 /**
  * Gets an AI response to a user message
  */
-export const api_chatRespond = async (question: string, message: string): Promise<string> => {
-  const requestData: ChatRequest = { question, message };
+export const api_chatRespond = async (question: string, message: string, messages: Message[]): Promise<string> => {
+  const requestData: ChatRequest = { question, message, messages };
   const data = await apiPost<ChatResponse>('/api/chat/respond', requestData, 'Response received');
   return data.response;
 };

@@ -9,10 +9,10 @@ import { PollAnswer } from "@/types/poll";
 import { logApiCall } from "../../utils/logUtils";
 import { getPollById } from "@/services/pollService";
 
-export const localStorage_chatRespond = async (question: string, message: string): Promise<string> => {
+export const localStorage_chatRespond = async (question: string, message: string, messages: Message[]): Promise<string> => {
   console.log(`🌐 API CALL: POST /api/chat/respond [SIMULATED]`);
   
-  const requestData = { question, message };
+  const requestData = { question, message, messages };
   logApiCall('POST', '/api/chat/respond', requestData, null);
   
   // This is a placeholder that would be replaced with actual AI call

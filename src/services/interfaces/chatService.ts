@@ -10,7 +10,7 @@ export interface ChatService {
   /**
    * Gets an AI response to a user message
    */
-  chatRespond: (question: string, message: string) => Promise<string>;
+  chatRespond: (question: string, message: string, messages: Message[]) => Promise<string>;
   
   /**
    * Generates a summary of a chat conversation
