@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageCircle } from "lucide-react";
@@ -33,7 +32,7 @@ export const ChatInterface = ({ question, onSummaryComplete }: ChatInterfaceProp
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
     
-    // Add user message
+    // Create user message
     const userMessage: Message = {
       id: generateId(),
       content: inputValue,
@@ -41,14 +40,12 @@ export const ChatInterface = ({ question, onSummaryComplete }: ChatInterfaceProp
       timestamp: new Date(),
     };
     
-    const updatedMessages = [...messages, userMessage];
-    setMessages(updatedMessages);
     setInputValue("");
     setIsTyping(true);
     
-    // Get AI response from service
+    // Get AI response from service using current messages (without the new user message)
     try {
-      const response = await chatRespond(question, inputValue, updatedMessages);
+      const response = await chatRespond(question, inputValue, messages);
       
       // Add AI message
       const aiMessage: Message = {
@@ -58,7 +55,8 @@ export const ChatInterface = ({ question, onSummaryComplete }: ChatInterfaceProp
         timestamp: new Date(),
       };
       
-      setMessages(prev => [...prev, aiMessage]);
+      // Add both user and AI messages together
+      setMessages(prev => [...prev, userMessage, aiMessage]);
     } catch (error) {
       console.error("Error getting AI response:", error);
       toast({
@@ -75,7 +73,8 @@ export const ChatInterface = ({ question, onSummaryComplete }: ChatInterfaceProp
         timestamp: new Date(),
       };
       
-      setMessages(prev => [...prev, errorMessage]);
+      // Add both user message and error message
+      setMessages(prev => [...prev, userMessage, errorMessage]);
     } finally {
       setIsTyping(false);
     }
