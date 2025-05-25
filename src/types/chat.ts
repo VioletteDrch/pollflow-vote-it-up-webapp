@@ -12,7 +12,7 @@ export interface Message {
 export interface ChatRequest {
   question: string;
   message: string;
-  messages: Message[];
+  past_messages: Message[];
 }
 
 export interface ChatResponse {

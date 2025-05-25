@@ -39,13 +39,17 @@ export const ChatInterface = ({ question, onSummaryComplete }: ChatInterfaceProp
       sender: "user",
       timestamp: new Date(),
     };
+
+    const pastMessages = messages;
+    const updatedMessages = [...pastMessages, userMessage];
+    setMessages(updatedMessages);
     
     setInputValue("");
     setIsTyping(true);
     
-    // Get AI response from service using current messages (without the new user message)
+    // Get AI response from service to new message using past messages
     try {
-      const response = await chatRespond(question, inputValue, messages);
+      const response = await chatRespond(question, inputValue, pastMessages);
       
       // Add AI message
       const aiMessage: Message = {
@@ -55,8 +59,8 @@ export const ChatInterface = ({ question, onSummaryComplete }: ChatInterfaceProp
         timestamp: new Date(),
       };
       
-      // Add both user and AI messages together
-      setMessages(prev => [...prev, userMessage, aiMessage]);
+      // Add AI 
+      setMessages(prev => [...prev, aiMessage]);
     } catch (error) {
       console.error("Error getting AI response:", error);
       toast({
